@@ -1,0 +1,17 @@
+version: "3"
+
+services: 
+  api:
+    build: 
+      context: ./api
+    command: npm start
+    ports: 
+      - "3000:3000"
+    volumes:
+      - ./api:/usr/api
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example

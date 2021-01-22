@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize, bcrypt) => queryInterface.createTable('users', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('clients', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -10,11 +10,19 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    password: {
+    number: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    mail: {
+    street: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    phone: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    site: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -26,17 +34,7 @@ module.exports = {
       type: Sequelize.DATE,
       allowNull: false,
     },
-  }, {
-    freezeTableName: true,
-    instanceMethods: {
-      generateHash(password) {
-        return bcrypt.hash(password, bcrypt.genSaltSync(8));
-      },
-      validPassword(password) {
-        return bcrypt.compare(password, this.password);
-      },
-    },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('users'),
+  down: (queryInterface) => queryInterface.dropTable('clients'),
 };

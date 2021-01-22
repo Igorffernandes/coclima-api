@@ -1,12 +1,16 @@
-const Sequelize = require('sequelize');
-const dbConfig = require('../config/database');
-const bcrypt = require("bcrypt-nodejs");
+import { Sequelize } from 'sequelize';
+import dbConfig from '../config/database';
 
-
-const User = require('./models/Users');
+import User from './models/Users';
+import Client from './models/Clients';
+import Receipts from './models/Receipts';
 
 const connection = new Sequelize(dbConfig);
 
 User.init(connection);
+Client.init(connection);
+Receipts.init(connection);
 
-module.exports = connection;
+Receipts.associate(connection.models);
+
+export default connection;

@@ -1,18 +1,15 @@
-const express = require('express');
-const routes = require('./routes');
+import express from 'express';
+import routes from './routes';
+import sequelize from './database';
+
 const PORT = 3000;
 const HOST = '0.0.0.0';
-
-import db from './config/database'
 
 const app = express();
 
 app.use(express.json());
 app.use(routes);
 
-app.get('/tesste', (req,res) => {
-    res.send(db.database?.a?.c || 'fdsfdsfdsfdsfdsfsd');
+app.listen(PORT, HOST, async () => {
+  await sequelize.authenticate();
 });
-
-app.listen(PORT, HOST);
-

@@ -1,13 +1,17 @@
-const express = require('express');
-const UserController = require('./controllers/UserController');
+import { Router } from 'express';
+import userController from './controllers/UserController';
+import clientController from './controllers/ClientController';
+import receiptsController from './controllers/ReceiptsController';
 
+const routes = Router();
 
-const routes = express.Router();
+routes.get('/', (req, res) => res.json({ hello: 'World' }));
 
-routes.get('/', (req, res) => {
-    return res.json({ hello: 'World'});
-})
+routes.post('/users', userController.create);
+routes.post('/users/login', userController.login);
 
-routes.post('/users', UserController.store);
+routes.post('/clients', clientController.create);
 
-module.exports = routes;
+routes.post('/receipts', receiptsController.create);
+
+export default routes;

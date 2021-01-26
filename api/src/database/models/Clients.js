@@ -8,6 +8,7 @@ export default class Clients extends Model {
       number: DataTypes.STRING,
       phone: DataTypes.STRING,
       site: DataTypes.STRING,
+      deleted_at: DataTypes.DATE,
     }, {
       sequelize,
     });

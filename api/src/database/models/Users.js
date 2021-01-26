@@ -9,9 +9,14 @@ export default class Users extends Model {
       name: DataTypes.STRING,
       password: DataTypes.STRING,
       mail: DataTypes.STRING,
+      deleted_at: DataTypes.DATE,
     }, {
       hooks: {
         beforeCreate: async (user) => {
+          // eslint-disable-next-line no-param-reassign
+          user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+        },
+        beforeUpdate: async (user) => {
           // eslint-disable-next-line no-param-reassign
           user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
         },

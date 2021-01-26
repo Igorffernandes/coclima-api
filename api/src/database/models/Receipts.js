@@ -6,6 +6,7 @@ export default class Receipts extends Model {
       client_id: DataTypes.INTEGER,
       date: DataTypes.DATE,
       value: DataTypes.STRING,
+      deleted_at: DataTypes.DATE,
     }, {
       sequelize,
     });

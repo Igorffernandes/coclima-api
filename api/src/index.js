@@ -12,4 +12,5 @@ app.use(routes);
 
 app.listen(PORT, HOST, async () => {
   await sequelize.authenticate();
+  console.log('🚀 API started');
 });

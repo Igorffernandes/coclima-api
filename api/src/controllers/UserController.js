@@ -1,21 +1,5 @@
 import User from '../database/models/Users';
 
-const login = async (req, res) => {
-  const { mail, password } = req.body;
-
-  const user = await User.findOne({ where: { mail } });
-  if (!user) {
-    return res.status(401).json({ error: true, msg: 'Invalid user or password' });
-  }
-
-  const isPasswordValid = await user.comparePassword(password);
-  if (!isPasswordValid) {
-    return res.status(401).json({ error: true, msg: 'Invalid user or password' });
-  }
-
-  return res.json(user);
-};
-
 const index = async (req, res) => {
   const clients = await User.findAll({ where: { deleted_at: null } });
 
@@ -24,7 +8,7 @@ const index = async (req, res) => {
       error: 'There is no client registered',
     });
   }
-  return res.json(clients);
+  return res.json([req.userId, clients]);
 };
 
 const show = async (req, res) => {
@@ -33,8 +17,8 @@ const show = async (req, res) => {
   const user = await User.findOne({ where: { id, deleted_at: null } });
 
   if (!user) {
-    return res.status(400).json({
-      error: 'This user is not registered',
+    return res.status(404).json({
+      error: 'User not found.',
     });
   }
   return res.json(user);
@@ -79,7 +63,7 @@ const create = async (req, res) => {
 
   const user = await User.create({ name, password, mail });
 
-  if (user) {
+  if (!user) {
     return res.status(400).json({
       error: 'This user is already registered',
     });
@@ -88,5 +72,5 @@ const create = async (req, res) => {
 };
 
 export default {
-  login, create, show, update, deleteUser, index,
+  create, show, update, deleteUser, index,
 };

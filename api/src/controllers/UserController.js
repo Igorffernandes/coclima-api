@@ -1,20 +1,14 @@
 import User from '../database/models/Users';
 
 const index = async (req, res) => {
-  const clients = await User.findAll({ where: { deleted_at: null } });
-
-  if (!clients) {
-    return res.status(400).json({
-      error: 'There is no client registered',
-    });
-  }
-  return res.json([req.userId, clients]);
+  const users = await User.scope('withoutPassword', 'active').findAll();
+  return res.json(users);
 };
 
-const show = async (req, res) => {
+const getUser = async (req, res) => {
   const { id } = req.params;
 
-  const user = await User.findOne({ where: { id, deleted_at: null } });
+  const user = await User.scope('withoutPassword', 'active').findByPk(id);
 
   if (!user) {
     return res.status(404).json({
@@ -26,7 +20,7 @@ const show = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findByPk(id);
+  const user = await User.scope('withoutPassword', 'active').findByPk(id);
 
   if (!user) {
     return res.status(400).json({
@@ -41,36 +35,52 @@ const deleteUser = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { id } = req.params;
-  const {
-    name, password, mail,
-  } = req.body;
-  const user = await User.findByPk(id);
+  try {
+    const { id } = req.params;
+    const {
+      name, password, role,
+    } = req.body;
+    const user = await User.scope('withoutPassword', 'active').findByPk(id);
 
-  if (!user) {
-    return res.status(400).json({
-      error: 'This user is not registered',
+    if (!user) {
+      return res.status(404).json({
+        error: 'This user is not registered',
+      });
+    }
+    await user.update({
+      name, password, role,
     });
+    const formattedUser = user.get({ plain: true });
+    delete formattedUser.password;
+    return res.json(formattedUser);
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
-  await user.update({
-    name, password, mail,
-  });
-  return res.json(user);
 };
 
 const create = async (req, res) => {
-  const { name, password, mail } = req.body;
+  try {
+    const {
+      name, password, email, role,
+    } = req.body;
 
-  const user = await User.create({ name, password, mail });
-
-  if (!user) {
-    return res.status(400).json({
-      error: 'This user is already registered',
+    const user = await User.create({
+      name, password, email, role,
     });
+
+    if (!user) {
+      return res.status(400).json({
+        error: 'This user is already registered',
+      });
+    }
+    const newUser = user.get({ plain: true });
+    delete newUser.password;
+    return res.json(newUser);
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
-  return res.json(user);
 };
 
 export default {
-  create, show, update, deleteUser, index,
+  create, getUser, update, deleteUser, index,
 };

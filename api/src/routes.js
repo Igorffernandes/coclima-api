@@ -13,7 +13,7 @@ routes.post('/login', authController.login);
 
 routes.get('/users', authMiddleware, userController.index);
 routes.post('/users', authMiddleware, userController.create);
-routes.get('/users/:id', authMiddleware, userController.show);
+routes.get('/users/:id', authMiddleware, userController.getUser);
 routes.put('/users/:id', authMiddleware, userController.update);
 routes.delete('/users/:id', authMiddleware, userController.deleteUser);
 

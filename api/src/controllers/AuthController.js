@@ -3,9 +3,9 @@ import { secret, expireIn } from '../config/auth';
 import User from '../database/models/Users';
 
 const login = async (req, res) => {
-  const { mail, password } = req.body;
+  const { email, password } = req.body;
 
-  const user = await User.findOne({ where: { mail } });
+  const user = await User.findOne({ where: { email } });
   if (!user) {
     return res.status(401).json({ error: true, msg: 'Invalid user or password' });
   }
@@ -19,7 +19,7 @@ const login = async (req, res) => {
     user: {
       id,
       name,
-      mail,
+      email,
     },
     token: jwt.sign({ id }, secret, {
       expiresIn: expireIn,

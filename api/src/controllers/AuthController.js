@@ -13,13 +13,14 @@ const login = async (req, res) => {
   if (!isPasswordValid) {
     return res.status(401).json({ error: true, msg: 'Invalid user or password' });
   }
-  const { id, name } = user;
+  const { id, name, role } = user;
 
   return res.json({
     user: {
       id,
       name,
       email,
+      role,
     },
     token: jwt.sign({ id }, secret, {
       expiresIn: expireIn,

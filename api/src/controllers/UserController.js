@@ -1,37 +1,49 @@
 import User from '../database/models/Users';
 
 const index = async (req, res) => {
-  const users = await User.scope('withoutPassword', 'active').findAll();
-  return res.json(users);
+  try {
+    const users = await User.scope('withoutPassword', 'active').findAll();
+    return res.json(users);
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+  }
 };
 
 const getUser = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const user = await User.scope('withoutPassword', 'active').findByPk(id);
+    const user = await User.scope('withoutPassword', 'active').findByPk(id);
 
-  if (!user) {
-    return res.status(404).json({
-      error: 'User not found.',
-    });
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found.',
+      });
+    }
+    return res.json(user);
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
-  return res.json(user);
 };
 
 const deleteUser = async (req, res) => {
-  const { id } = req.params;
-  const user = await User.scope('withoutPassword', 'active').findByPk(id);
+  try {
+    const { id } = req.params;
+    const user = await User.scope('withoutPassword', 'active').findByPk(id);
 
-  if (!user) {
-    return res.status(400).json({
-      error: 'This user is not registered',
+    if (!user) {
+      return res.status(400).json({
+        error: 'This user is not registered',
+      });
+    }
+    await user.update({ deleted_at: new Date() });
+
+    return res.status(204).json({
+      msg: 'user deleted!',
     });
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
-  await user.update({ deleted_at: new Date() });
-
-  return res.status(204).json({
-    msg: 'user deleted!',
-  });
 };
 
 const update = async (req, res) => {
@@ -40,7 +52,7 @@ const update = async (req, res) => {
     const {
       name, password, role,
     } = req.body;
-    const user = await User.scope('withoutPassword', 'active').findByPk(id);
+    const user = await User.scope('active').findByPk(id);
 
     if (!user) {
       return res.status(404).json({

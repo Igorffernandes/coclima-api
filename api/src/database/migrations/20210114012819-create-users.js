@@ -42,7 +42,7 @@ module.exports = {
       freezeTableName: true,
     });
     const SALT_ROUNDS = 10;
-    const password = await bcrypt.hash('master', SALT_ROUNDS);
+    const password = await bcrypt.hash('admin', SALT_ROUNDS);
     queryInterface.bulkInsert('users', [{
       name: 'admin',
       password,
@@ -50,7 +50,7 @@ module.exports = {
       role: 'admin',
       created_at: new Date(),
       updated_at: new Date(),
-    }])
+    }]);
   },
   down: (queryInterface) => queryInterface.dropTable('users'),
 };

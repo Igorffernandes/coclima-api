@@ -10,6 +10,11 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    cpfcnpj: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true,
+    },
     number: {
       type: Sequelize.STRING,
       allowNull: false,

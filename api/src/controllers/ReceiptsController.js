@@ -58,7 +58,8 @@ const update = async (req, res) => {
     });
     return res.json(receipt);
   } catch (err) {
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+    return res.status(409).json({ msg: err });
+    // .errors.map((e) => e.message)
   }
 };
 

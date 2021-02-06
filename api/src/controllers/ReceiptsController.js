@@ -1,80 +1,107 @@
 import Receipts from '../database/models/Receipts';
+import Client from '../database/models/Clients';
 
 const index = async (req, res) => {
-  const receipts = await Receipts.findAll({ where: { deleted_at: null } });
+  try {
+    const receipts = await Receipts.findAll({ where: { deleted_at: null } });
 
-  if (!receipts) {
-    return res.status(400).json({
-      error: 'There is no receipt registered',
-    });
+    if (!receipts) {
+      return res.status(400).json({
+        error: 'There is no receipt registered',
+      });
+    }
+    return res.json(receipts);
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
-  return res.json(receipts);
 };
 
 const show = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const receipts = await Receipts.findOne({ where: { id, deleted_at: null } });
+    const receipts = await Receipts.findOne({ where: { id, deleted_at: null } });
 
-  if (!receipts) {
-    return res.status(400).json({
-      error: 'This receipt is not registered',
-    });
+    if (!receipts) {
+      return res.status(400).json({
+        error: 'This receipt is not registered',
+      });
+    }
+    return res.json(receipts);
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
-  return res.json(receipts);
 };
 
 const update = async (req, res) => {
-  const { id } = req.params;
-  const {
-    // eslint-disable-next-line camelcase
-    date, value, client_id,
-  } = req.body;
-  const receipt = await Receipts.findByPk(id);
+  try {
+    const { id } = req.params;
+    const {
+      // eslint-disable-next-line camelcase
+      date, value, client_id,
+    } = req.body;
 
-  if (!receipt) {
-    return res.status(400).json({
-      error: 'This receipt is not registered',
+    const receipt = await Receipts.findByPk(id);
+
+    if (!receipt) {
+      return res.status(400).json({
+        error: 'This receipt is not registered',
+      });
+    }
+    const client = receipt.client_id;
+    const clientExist = await Client.findOne({ where: { id: client } });
+    if (!clientExist) {
+      return res.json({ msg: 'Client not found! ' });
+    }
+    await receipt.update({
+      date, value, client_id,
     });
+    return res.json(receipt);
+  } catch (err) {
+    return res.status(409).json({ msg: err });
+    // .errors.map((e) => e.message)
   }
-  await receipt.update({
-    date, value, client_id,
-  });
-  return res.json(receipt);
 };
 
 const deleteReceipt = async (req, res) => {
-  const { id } = req.params;
-  const receipts = await Receipts.findByPk(id);
+  try {
+    const { id } = req.params;
+    const receipts = await Receipts.findByPk(id);
 
-  if (!receipts) {
-    return res.status(400).json({
-      error: 'This receipts is not registered',
+    if (!receipts) {
+      return res.status(400).json({
+        error: 'This receipts is not registered',
+      });
+    }
+    await receipts.update({ deleted_at: new Date() });
+
+    return res.status(204).json({
+      msg: 'Receipts deleted!',
     });
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
-  await receipts.update({ deleted_at: new Date() });
-
-  return res.status(204).json({
-    msg: 'Receipts deleted!',
-  });
 };
 
 const create = async (req, res) => {
-  const {
-    // eslint-disable-next-line camelcase
-    date, value, client_id,
-  } = req.body;
+  try {
+    const {
+      // eslint-disable-next-line camelcase
+      date, value, client_id,
+    } = req.body;
 
-  const receipts = await Receipts.create({
-    date, value, client_id,
-  });
-
-  // if (receipts) {
-  //   return res.status(400).json({
-  //     error: 'This receipt is already registered',
-  //   });
-  // }
-  return res.json(receipts);
+    const client = req.body.client_id;
+    const clientExist = await Client.findOne({ where: { id: client } });
+    if (!clientExist) {
+      return res.json({ msg: 'Client not found! ' });
+    }
+    const receipts = await Receipts.create({
+      date, value, client_id,
+    });
+    return res.json(receipts);
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+  }
 };
 
 export default {

@@ -23,9 +23,13 @@ export default class Clients extends Model {
           notEmpty: {
             msg: 'Client cpf can not be empty!',
           },
-          is: {
-            args: ['([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})', 'i'],
-            msg: 'Only this formats: 00000000000, 00000000000000, 000.000.000-00, 00.000.000/0000-00 e até 000000000-00 ou 00000000/0000-00 are allowed in client cpf/cnpj',
+          isInt: {
+            args: true,
+            msg: 'Client cpf/cnpj must be only numbers. Ex: 00011122244',
+          },
+          len: {
+            args: [11, 14],
+            msg: 'Deve ser menor que 14',
           },
         },
       },
@@ -54,16 +58,15 @@ export default class Clients extends Model {
           notEmpty: {
             msg: 'Client phone can not be empty!',
           },
+          isInt: {
+            args: true,
+            msg: 'Client phone must be only numbers!',
+          },
         },
       },
       site: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: 'Client site can not be empty!',
-          },
-        },
+        allowNull: true,
       },
       deleted_at: {
         type: DataTypes.DATE,

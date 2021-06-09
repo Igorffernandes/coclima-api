@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 
-export default class Clients extends Model {
+export default class Companies extends Model {
   static init(sequelize) {
     super.init({
       name: {
@@ -8,11 +8,11 @@ export default class Clients extends Model {
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: 'Client name can not be empty!',
+            msg: 'Company name can not be empty!',
           },
           is: {
             args: ['^\\D+$', 'i'],
-            msg: 'Only letters and special characters are allowed in client name',
+            msg: 'Only letters and special characters are allowed in company name',
           },
         },
       },
@@ -21,15 +21,15 @@ export default class Clients extends Model {
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: 'Client cpf can not be empty!',
+            msg: 'Company cpf can not be empty!',
           },
           isInt: {
             args: true,
-            msg: 'Client cpf/cnpj must be only numbers. Ex: 00011122244',
+            msg: 'Company cpf/cnpj must be only numbers. Ex: 00011122244',
           },
           len: {
             args: [11, 14],
-            msg: 'Deve ser menor que 14',
+            msg: 'Must contain 14 characters or 11 characters',
           },
         },
       },
@@ -38,34 +38,49 @@ export default class Clients extends Model {
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: 'Client street can not be empty!',
+            msg: 'Company street can not be empty!',
           },
         },
       },
       number: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: 'Client street number can not be empty!',
-          },
-        },
+        allowNull: true,
+      },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      state: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      cep: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       phone: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: 'Client phone can not be empty!',
+            msg: 'Company phone can not be empty!',
           },
           isInt: {
             args: true,
-            msg: 'Client phone must be only numbers!',
+            msg: 'Company phone must be only numbers!',
           },
         },
       },
       site: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      token: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      api_key: {
+        type: DataTypes.TEXT,
         allowNull: true,
       },
       deleted_at: {

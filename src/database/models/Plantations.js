@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 
-export default class Receipts extends Model {
+export default class Plantations extends Model {
   static init(sequelize) {
     super.init({
       date: {
@@ -12,14 +12,18 @@ export default class Receipts extends Model {
           isDate: true,
         },
       },
-      value: {
+      trees: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: 'Receipt value can not be empty!',
+            msg: 'Trees value can not be empty!',
           },
         },
+      },
+      geolocation: {
+        type: DataTypes.JSON,
+        allowNull: true,
       },
       company_id: {
         type: DataTypes.INTEGER,

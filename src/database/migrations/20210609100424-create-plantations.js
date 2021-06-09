@@ -1,5 +1,5 @@
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.createTable('receipts', {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('plantations', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -10,9 +10,13 @@ module.exports = {
       type: Sequelize.DATE,
       allowNull: false,
     },
-    value: {
+    trees: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    geolocation: {
+      type: Sequelize.JSON,
+      allowNull: true,
     },
     company_id: {
       type: Sequelize.INTEGER,
@@ -35,5 +39,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('receipts'),
+  down: async (queryInterface) => queryInterface.dropTable('plantations'),
 };

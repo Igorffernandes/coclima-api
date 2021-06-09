@@ -1,24 +1,15 @@
 import { Model, DataTypes } from 'sequelize';
 
-export default class Receipts extends Model {
+export default class Archives extends Model {
   static init(sequelize) {
     super.init({
-      date: {
-        type: DataTypes.DATE,
+      data: {
+        type: DataTypes.TEXT,
         validate: {
           notEmpty: {
-            msg: 'Receipt date can not be empty!',
+            msg: 'File can not be empty!',
           },
           isDate: true,
-        },
-      },
-      value: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: 'Receipt value can not be empty!',
-          },
         },
       },
       company_id: {
@@ -29,6 +20,19 @@ export default class Receipts extends Model {
           },
           isInt: true,
         },
+      },
+      type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Type value can not be empty!',
+          },
+        },
+      },
+      keywords: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       deleted_at: {
         type: DataTypes.DATE,

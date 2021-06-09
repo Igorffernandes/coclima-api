@@ -1,17 +1,13 @@
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.createTable('receipts', {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('archives', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    date: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    value: {
-      type: Sequelize.STRING,
+    data: {
+      type: Sequelize.TEXT,
       allowNull: false,
     },
     company_id: {
@@ -20,6 +16,14 @@ module.exports = {
       references: { model: 'companies', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
+    },
+    type: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    keywords: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
     deleted_at: {
       type: Sequelize.DATE,
@@ -35,5 +39,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('receipts'),
+  down: async (queryInterface) => queryInterface.dropTable('archives'),
 };

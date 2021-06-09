@@ -43,16 +43,11 @@ export default class Users extends Model {
       },
       role: {
         type: DataTypes.STRING,
-        validate: {
-          notEmpty: {
-            msg: 'Role can not be empty!',
-          },
-          isIn: {
-            args: [['admin', 'client', 'customer']],
-            msg: 'Must be a valid role. Roles: admin,client,customer ',
-          },
-          isLowercase: true,
-        },
+        allowNull: false,
+      },
+      company_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
       deleted_at: {
         type: DataTypes.DATE,
@@ -87,8 +82,11 @@ export default class Users extends Model {
     });
   }
 
+  static associate(models) {
+    this.belongsTo(models.Companies, { foreignKey: 'company_id', as: 'companies' });
+  }
+
   async comparePassword(plainTextPassword) {
-    // console.log(this.password, plainTextPassword);
     const isSame = await bcrypt.compare(plainTextPassword, this.password);
     return isSame;
   }

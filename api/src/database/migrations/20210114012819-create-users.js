@@ -52,5 +52,6 @@ module.exports = {
       updated_at: new Date(),
     }]);
   },
+
   down: (queryInterface) => queryInterface.dropTable('users'),
 };

@@ -58,6 +58,10 @@ export default class Companies extends Model {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       phone: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -79,8 +83,32 @@ export default class Companies extends Model {
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      api_key: {
+      api_address: {
         type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      access_token: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      refresh_token: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      date_expiration_access_token: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      date_expiration_refresh_token: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      date_activated: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      store_id: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
       deleted_at: {

@@ -1,16 +1,41 @@
 /* eslint-disable camelcase */
 import Plantation from '../database/models/Plantations';
+import User from '../database/models/Users';
 
 const index = async (req, res) => {
   try {
-    const plantation = await Plantation.findAll({ where: { deleted_at: null } });
+    const user = await User.findByPk(req.userId);
+    if (user.role !== 'admin' && !user.company_id) {
+      return res.status(400).json({
+        msg: 'you cant acess this resource',
+      });
+    }
+    const queryObject = {
+      deleted_at: null,
+    };
+
+    if (user.company_id) {
+      queryObject.company_id = user.company_id;
+    }
+    const plantation = await Plantation.findAll({ where: queryObject });
 
     if (!plantation) {
       return res.status(400).json({
         error: 'There is no plantation registered',
       });
     }
-    return res.json(plantation);
+    let trees = 0;
+    // eslint-disable-next-line array-callback-return
+    plantation.map((item) => {
+      trees += Number(item.trees);
+    });
+
+    const carbon = trees * 5;
+    return res.status(200).json({
+      trees,
+      carbon,
+      plantation,
+    });
   } catch (err) {
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }

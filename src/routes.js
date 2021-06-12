@@ -6,6 +6,7 @@ import authController from './controllers/AuthController';
 import archiveController from './controllers/ArchivesController';
 import plantationController from './controllers/PlantationController';
 import authMiddleware from './middlewares/authMiddleware';
+import DashboardController from './controllers/DashboardController';
 
 const routes = Router();
 
@@ -42,5 +43,7 @@ routes.get('/plantations/:id', authMiddleware, plantationController.show);
 routes.post('/plantations', authMiddleware, plantationController.create);
 routes.put('/plantations/:id', authMiddleware, plantationController.update);
 routes.delete('/plantations/:id', authMiddleware, plantationController.deletePlantation);
+
+routes.get('/dashboard', authMiddleware, DashboardController.show);
 
 export default routes;

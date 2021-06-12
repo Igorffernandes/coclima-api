@@ -1,9 +1,27 @@
 /* eslint-disable camelcase */
 import Archive from '../database/models/Archives';
+import User from '../database/models/Users';
 
 const index = async (req, res) => {
   try {
-    const archives = await Archive.findAll({ where: { deleted_at: null } });
+    const user = await User.findByPk(req.userId);
+    if (user.role !== 'admin' && !user.company_id) {
+      return res.status(400).json({
+        msg: 'you cant acess this resource',
+      });
+    }
+    const queryObject = {
+      deleted_at: null,
+    };
+
+    if (req.query.type) {
+      queryObject.type = req.query.type;
+    }
+
+    if (user.company_id) {
+      queryObject.company_id = user.company_id;
+    }
+    const archives = await Archive.findAll({ where: queryObject });
 
     if (!archives) {
       return res.status(400).json({

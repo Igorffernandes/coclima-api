@@ -1,5 +1,5 @@
 import Receipts from '../database/models/Receipts';
-import Client from '../database/models/Clients';
+import Company from '../database/models/Companies';
 
 const index = async (req, res) => {
   try {
@@ -49,7 +49,7 @@ const update = async (req, res) => {
       });
     }
     const client = receipt.client_id;
-    const clientExist = await Client.findOne({ where: { id: client } });
+    const clientExist = await Company.findOne({ where: { id: client } });
     if (!clientExist) {
       return res.json({ msg: 'Client not found! ' });
     }
@@ -91,7 +91,7 @@ const create = async (req, res) => {
     } = req.body;
 
     const client = req.body.client_id;
-    const clientExist = await Client.findOne({ where: { id: client } });
+    const clientExist = await Company.findOne({ where: { id: client } });
     if (!clientExist) {
       return res.json({ msg: 'Client not found! ' });
     }

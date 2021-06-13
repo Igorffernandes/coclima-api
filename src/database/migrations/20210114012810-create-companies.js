@@ -40,6 +40,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       site: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -48,7 +52,31 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      api_key: {
+      api_address: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      access_token: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      refresh_token: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      date_expiration_access_token: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+      date_expiration_refresh_token: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+      date_activated: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+      store_id: {
         type: Sequelize.STRING,
         allowNull: true,
       },
@@ -67,6 +95,7 @@ module.exports = {
     });
     queryInterface.bulkInsert('companies', [{
       name: 'Fulano',
+      email: 'fulano@gmail.com',
       cpfcnpj: '08586983900',
       street: 'rua abc',
       number: '123',
@@ -75,6 +104,20 @@ module.exports = {
       cep: '85000-000',
       phone: '42991422029',
       site: 'www.google.com',
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+    {
+      name: 'Ciclano',
+      email: 'ciclano@gmail.com',
+      cpfcnpj: '09409409494',
+      street: 'rua abc',
+      number: '123',
+      city: 'Guarapuava',
+      state: 'PR',
+      cep: '85000-000',
+      phone: '42991422029',
+      site: 'www.pimbosite.com',
       created_at: new Date(),
       updated_at: new Date(),
     }]);

@@ -18,6 +18,11 @@ const show = async (req, res) => {
     if (user.company_id) {
       queryObject.company_id = user.company_id;
     }
+
+    if (req.query.company_id) {
+      queryObject.company_id = req.query.company_id;
+    }
+
     const receipts = await Receipts.findAll({ where: queryObject });
     const plantations = await Plantations.findAll({ where: queryObject });
 

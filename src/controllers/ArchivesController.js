@@ -21,6 +21,11 @@ const index = async (req, res) => {
     if (user.company_id) {
       queryObject.company_id = user.company_id;
     }
+
+    if (req.query.company_id) {
+      queryObject.company_id = req.query.company_id;
+    }
+
     const archives = await Archive.findAll({ where: queryObject });
 
     if (!archives) {

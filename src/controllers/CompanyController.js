@@ -3,7 +3,15 @@ import Company from '../database/models/Companies';
 
 const index = async (req, res) => {
   try {
-    const companies = await Company.findAll({ where: { deleted_at: null } });
+    const queryObject = {
+      deleted_at: null,
+    };
+
+    if (req.query.company_id) {
+      queryObject.id = req.query.company_id;
+    }
+
+    const companies = await Company.findAll({ where: queryObject });
 
     if (!companies) {
       return res.status(400).json({

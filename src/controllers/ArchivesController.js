@@ -111,6 +111,7 @@ const create = async (req, res) => {
 
     return res.json(archive);
   } catch (err) {
+    console.log(err);
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
 };

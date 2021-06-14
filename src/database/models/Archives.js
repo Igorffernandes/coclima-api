@@ -13,7 +13,6 @@ export default class Archives extends Model {
           notEmpty: {
             msg: 'File can not be empty!',
           },
-          isDate: true,
         },
       },
       company_id: {

@@ -69,10 +69,6 @@ export default class Companies extends Model {
           notEmpty: {
             msg: 'Company phone can not be empty!',
           },
-          isInt: {
-            args: true,
-            msg: 'Company phone must be only numbers!',
-          },
         },
       },
       site: {

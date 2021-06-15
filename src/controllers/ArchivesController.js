@@ -21,6 +21,11 @@ const index = async (req, res) => {
     if (user.company_id) {
       queryObject.company_id = user.company_id;
     }
+
+    if (req.query.company_id) {
+      queryObject.company_id = req.query.company_id;
+    }
+
     const archives = await Archive.findAll({ where: queryObject });
 
     if (!archives) {
@@ -55,7 +60,7 @@ const update = async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      data, company_id, type, keywords, deleted_at,
+      data, company_id, type, keywords, deleted_at, name,
     } = req.body;
     const archive = await Archive.findByPk(id);
 
@@ -65,7 +70,7 @@ const update = async (req, res) => {
       });
     }
     await archive.update({
-      data, company_id, type, keywords, deleted_at,
+      data, company_id, type, keywords, deleted_at, name,
     });
     return res.json(archive);
   } catch (err) {
@@ -96,7 +101,7 @@ const deleteArchive = async (req, res) => {
 const create = async (req, res) => {
   try {
     const {
-      data, company_id, type, keywords, deleted_at,
+      data, company_id, type, keywords, deleted_at, name,
     } = req.body;
     // const companyCpfCnpj = req.body.cpfcnpj;
     // const companyExist = await Archive.findOne({ where: { cpfcnpj: companyCpfCnpj } });
@@ -106,11 +111,12 @@ const create = async (req, res) => {
     //   });
     // }
     const archive = await Archive.create({
-      data, company_id, type, keywords, deleted_at,
+      data, company_id, type, keywords, deleted_at, name,
     });
 
     return res.json(archive);
   } catch (err) {
+    console.log(err);
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
 };

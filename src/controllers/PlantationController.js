@@ -124,6 +124,7 @@ const create = async (req, res) => {
 
     return res.json(plantation);
   } catch (err) {
+    console.log('\n\n\n', err, '\n\n\n');
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
 };

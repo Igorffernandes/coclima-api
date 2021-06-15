@@ -17,6 +17,11 @@ const index = async (req, res) => {
     if (user.company_id) {
       queryObject.company_id = user.company_id;
     }
+
+    if (req.query.company_id) {
+      queryObject.company_id = req.query.company_id;
+    }
+
     const plantation = await Plantation.findAll({ where: queryObject });
 
     if (!plantation) {
@@ -119,6 +124,7 @@ const create = async (req, res) => {
 
     return res.json(plantation);
   } catch (err) {
+    console.log('\n\n\n', err, '\n\n\n');
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
 };

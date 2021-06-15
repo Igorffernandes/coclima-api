@@ -3,13 +3,16 @@ import { Model, DataTypes } from 'sequelize';
 export default class Archives extends Model {
   static init(sequelize) {
     super.init({
+      name: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       data: {
         type: DataTypes.TEXT,
         validate: {
           notEmpty: {
             msg: 'File can not be empty!',
           },
-          isDate: true,
         },
       },
       company_id: {

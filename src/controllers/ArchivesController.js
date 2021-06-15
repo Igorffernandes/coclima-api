@@ -33,9 +33,10 @@ const index = async (req, res) => {
         error: 'There is no archive registered',
       });
     }
+
     return res.json(archives);
   } catch (err) {
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+    return res.status(409).json({ msg: err.message });
   }
 };
 

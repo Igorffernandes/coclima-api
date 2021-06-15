@@ -8,9 +8,12 @@ import plantationController from './controllers/PlantationController';
 import authMiddleware from './middlewares/authMiddleware';
 import DashboardController from './controllers/DashboardController';
 
+import TrayController from './controllers/TrayController';
+
 const routes = Router();
 
 routes.get('/', (req, res) => res.json({ hello: 'World' }));
+routes.get('/dashboard', authMiddleware, DashboardController.show);
 
 routes.post('/login', authController.login);
 
@@ -44,6 +47,7 @@ routes.post('/plantations', authMiddleware, plantationController.create);
 routes.put('/plantations/:id', authMiddleware, plantationController.update);
 routes.delete('/plantations/:id', authMiddleware, plantationController.deletePlantation);
 
-routes.get('/dashboard', authMiddleware, DashboardController.show);
+routes.get('/script', TrayController.index);
+routes.post('/callback', TrayController.create);
 
 export default routes;

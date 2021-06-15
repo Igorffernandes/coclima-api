@@ -115,14 +115,17 @@ const create = async (req, res) => {
       date_expiration_refresh_token,
       date_activated,
       store_id,
+      cpfcnpj,
     } = req.body;
-    const companyCpfCnpj = req.body.cpfcnpj;
-    const companyExist = await Company.findOne({ where: { cpfcnpj: companyCpfCnpj } });
+
+    const companyExist = await Company.findOne({ where: { cpfcnpj } });
+
     if (companyExist) {
       return res.status(400).json({
         error: 'This client is already registered',
       });
     }
+
     const company = await Company.create({
       name,
       number,
@@ -137,7 +140,7 @@ const create = async (req, res) => {
       date_expiration_refresh_token,
       date_activated,
       store_id,
-      cpfcnpj: companyCpfCnpj,
+      cpfcnpj,
     });
 
     return res.json(company);

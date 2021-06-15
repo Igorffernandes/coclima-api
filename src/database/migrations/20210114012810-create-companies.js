@@ -48,7 +48,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      token: {
+      code: {
         type: Sequelize.STRING,
         allowNull: true,
       },

@@ -79,7 +79,7 @@ export default class Companies extends Model {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      token: {
+      code: {
         type: DataTypes.TEXT,
         allowNull: true,
       },

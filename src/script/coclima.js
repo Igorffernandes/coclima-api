@@ -1,4 +1,4 @@
-(function () { console.log('CoClima is on'); });
+(console.log('\n\n\n', 'CoClima is on man', '\n\n\n'));
 
 // (function (w, d, s, l, i) {
 //   w[l] = w[l] || []; w[l].push({

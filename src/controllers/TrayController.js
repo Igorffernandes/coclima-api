@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 
 const index = async (req, res) => {
   try {
-    return res.sendFile(path.join(__dirname, '../script/popup.html'));
+    return res.sendFile(path.join(__dirname, '../script/coclima.js'));
   } catch (err) {
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }

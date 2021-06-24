@@ -15,6 +15,14 @@ const index = async (req, res) => {
   }
 };
 
+const index2 = async (req, res) => {
+  try {
+    return res.sendFile(path.join(__dirname, '../script/coclima2.js'));
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+  }
+};
+
 const create = async (req, res) => {
   const {
     username,
@@ -82,4 +90,4 @@ const create = async (req, res) => {
   });
 };
 
-export default { index, create };
+export default { index, index2, create };

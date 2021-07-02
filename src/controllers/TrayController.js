@@ -7,6 +7,14 @@ import getAccessToken from '../utils/AccessToken';
 
 const bcrypt = require('bcrypt');
 
+const init = async (req, res) => {
+  try {
+    return res.sendFile(path.join(__dirname, '../script/init.js'));
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+  }
+};
+
 const index = async (req, res) => {
   try {
     return res.sendFile(path.join(__dirname, '../script/coclima.js'));
@@ -90,4 +98,6 @@ const create = async (req, res) => {
   });
 };
 
-export default { index, index2, create };
+export default {
+  init, index, index2, create,
+};

@@ -7,7 +7,6 @@ import archiveController from './controllers/ArchivesController';
 import plantationController from './controllers/PlantationController';
 import authMiddleware from './middlewares/authMiddleware';
 import DashboardController from './controllers/DashboardController';
-
 import TrayController from './controllers/TrayController';
 
 const routes = Router();
@@ -47,6 +46,7 @@ routes.post('/plantations', authMiddleware, plantationController.create);
 routes.put('/plantations/:id', authMiddleware, plantationController.update);
 routes.delete('/plantations/:id', authMiddleware, plantationController.deletePlantation);
 
+routes.get('/init', TrayController.init);
 routes.get('/script', TrayController.index);
 routes.get('/script2', TrayController.index2);
 routes.post('/callback', TrayController.create);

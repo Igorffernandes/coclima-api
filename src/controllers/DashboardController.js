@@ -1,6 +1,6 @@
 import subDays from 'date-fns/subDays';
 import format from 'date-fns/format';
-import differenceInDays from 'date-fns/differenceInDays'
+import differenceInDays from 'date-fns/differenceInDays';
 import { Op } from 'sequelize';
 import { getDates } from '../utils/dates';
 
@@ -28,7 +28,7 @@ const show = async (req, res) => {
       queryObject.company_id = req.query.company_id;
     }
     const firstPlantation = await Plantations.findOne({ where: queryObject, order: [['date', 'ASC']] });
-    const datePlantation = differenceInDays(new Date(), firstPlantation?.date || new Date()) + 1;
+    const datePlantation = differenceInDays(new Date(), firstPlantation.date || new Date()) + 1;
 
     if (req.query.date_filter) {
       queryObject.date = {
@@ -48,9 +48,7 @@ const show = async (req, res) => {
 
     const treeChartData = datesToMap.map((item, index) => {
       let trees = 0;
-      const plantationData = plantations.filter((a) => {
-        return format(new Date(a.date), 'yyyy-MM-dd') === format(new Date(item), 'yyyy-MM-dd');
-      });
+      const plantationData = plantations.filter((a) => format(new Date(a.date), 'yyyy-MM-dd') === format(new Date(item), 'yyyy-MM-dd'));
       if (plantationData) {
         plantationData.map((abc) => trees += Number(abc.trees));
       }
@@ -62,9 +60,7 @@ const show = async (req, res) => {
 
     const capitalChartData = datesToMap.map((item, index) => {
       let value = 0;
-      const receiptsData = receipts.filter((a) => {
-        return format(new Date(a.date), 'yyyy-MM-dd') === format(new Date(item), 'yyyy-MM-dd');
-      });
+      const receiptsData = receipts.filter((a) => format(new Date(a.date), 'yyyy-MM-dd') === format(new Date(item), 'yyyy-MM-dd'));
       if (receiptsData) {
         receiptsData.map((abc) => value += Number(abc.value));
       }

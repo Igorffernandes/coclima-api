@@ -15,6 +15,14 @@ const init = async (req, res) => {
   }
 };
 
+const init1 = async (req, res) => {
+  try {
+    return res.sendFile(path.join(__dirname, '../script/init1.js'));
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+  }
+};
+
 const index = async (req, res) => {
   try {
     return res.sendFile(path.join(__dirname, '../script/coclima.js'));
@@ -23,9 +31,9 @@ const index = async (req, res) => {
   }
 };
 
-const index2 = async (req, res) => {
+const index1 = async (req, res) => {
   try {
-    return res.sendFile(path.join(__dirname, '../script/coclima2.js'));
+    return res.sendFile(path.join(__dirname, '../script/coclima1.js'));
   } catch (err) {
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
@@ -99,5 +107,5 @@ const create = async (req, res) => {
 };
 
 export default {
-  init, index, index2, create,
+  init, init1, index, index1, create,
 };

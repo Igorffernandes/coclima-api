@@ -47,8 +47,9 @@ routes.put('/plantations/:id', authMiddleware, plantationController.update);
 routes.delete('/plantations/:id', authMiddleware, plantationController.deletePlantation);
 
 routes.get('/init', TrayController.init);
+routes.get('/init1', TrayController.init1);
 routes.get('/script', TrayController.index);
-routes.get('/script2', TrayController.index2);
+routes.get('/script1', TrayController.index1);
 routes.post('/callback', TrayController.create);
 
 export default routes;

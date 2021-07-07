@@ -1,4 +1,4 @@
-#modal {
+#modal-coclima {
   position: absolute;
   width: 424px;
   height: 510px;
@@ -7,13 +7,36 @@
   top: 0;
   bottom: 0;
   margin: auto;
+  z-index: 999;
 
   background: #FFFFFF;
   box-shadow: 0px 4px 20px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 
-#trees {
+#close-coclima {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  left: 367px;
+  top: 12px;
+  border-radius: 100px;
+  background-color: #F1F3F4;
+  cursor: pointer;
+}
+
+#closex-coclima {
+  font-size: 28px;
+  color: #3E4054;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+}
+
+#trees-coclima {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -30,7 +53,7 @@
   border-radius: 8px;
 }
 
-#treesDesc {
+#treesDesc-coclima {
   position: static;
   width: 100px;
   height: 24px;
@@ -43,12 +66,7 @@
   font-size: 10px;
   line-height: 12px;
 
-  /* Brand colors/dark */
-
   color: #142847;
-
-
-  /* Inside Auto Layout */
 
   flex: none;
   order: 2;
@@ -56,32 +74,24 @@
   margin: 0px 9px;
 }
 
-#treesValue {
+#treesValue-coclima {
   position: static;
   width: 60px;
   height: 29px;
   left: 163.81px;
   top: 12px;
 
-  /* subtitle */
-
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
   line-height: 29px;
-  /* identical to box height */
 
   display: flex;
   align-items: center;
   text-align: center;
 
-  /* Brand colors/primary */
-
   color: #0EC164;
-
-
-  /* Inside Auto Layout */
 
   flex: none;
   order: 3;
@@ -89,7 +99,7 @@
   margin: 0px 9px;
 }
 
-#mainText {
+#mainText-coclima {
   position: absolute;
   width: 327px;
   height: 78px;
@@ -109,14 +119,12 @@
   color: #000000;
 }
 
-#submainText {
+#submainText-coclima {
   position: absolute;
   width: 267px;
   height: 57px;
   left: 79px;
   top: 229px;
-
-  /* body */
 
   font-family: Inter;
   font-style: normal;
@@ -130,7 +138,7 @@
   color: #3F3F3F;
 }
 
-#button {
+#button-coclima {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -142,10 +150,14 @@
   left: 121px;
   top: 318px;
 
+  font-weight: bold;
+  font-size: 14px;
+
   color: #FFFFFF;
   text-transform: uppercase;
 
   background: #0EC164;
   border-radius: 8px;
+  border-width: 0px;
+  cursor: pointer;
 }
-

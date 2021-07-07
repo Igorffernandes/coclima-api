@@ -7,6 +7,14 @@ import getAccessToken from '../utils/AccessToken';
 
 const bcrypt = require('bcrypt');
 
+const html = async (req, res) => {
+  try {
+    return res.sendFile(path.join(__dirname, '../script/popup.html'));
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+  }
+};
+
 const init = async (req, res) => {
   try {
     return res.sendFile(path.join(__dirname, '../script/init.js'));
@@ -15,25 +23,9 @@ const init = async (req, res) => {
   }
 };
 
-const init1 = async (req, res) => {
+const css = async (req, res) => {
   try {
-    return res.sendFile(path.join(__dirname, '../script/init1.js'));
-  } catch (err) {
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
-  }
-};
-
-const index = async (req, res) => {
-  try {
-    return res.sendFile(path.join(__dirname, '../script/coclima.js'));
-  } catch (err) {
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
-  }
-};
-
-const index1 = async (req, res) => {
-  try {
-    return res.sendFile(path.join(__dirname, '../script/coclima1.js'));
+    return res.sendFile(path.join(__dirname, '../script/css.css'));
   } catch (err) {
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
@@ -107,5 +99,5 @@ const create = async (req, res) => {
 };
 
 export default {
-  init, init1, index, index1, create,
+  init, css, html, create,
 };

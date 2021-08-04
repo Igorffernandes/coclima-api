@@ -1,7 +1,7 @@
 #modal-coclima {
   position: absolute;
   width: 424px;
-  height: 510px;
+  height: 480px;
   left: 0; 
   right: 0; 
   top: 0;
@@ -124,7 +124,7 @@
   width: 267px;
   height: 57px;
   left: 79px;
-  top: 229px;
+  top: 235px;
 
   font-family: Inter;
   font-style: normal;
@@ -145,7 +145,7 @@
   padding: 15px 29px;
 
   position: absolute;
-  width: 182px;
+  width: 195px;
   height: 47px;
   left: 121px;
   top: 318px;
@@ -160,4 +160,35 @@
   border-radius: 8px;
   border-width: 0px;
   cursor: pointer;
+}
+
+#partner-text {
+  display: flex;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-right: 15px;
+
+  color: #808EA9;
+}
+
+#logo-img {
+  display: flex;
+}
+
+#logo-partner-div {
+  position: absolute;
+  top: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

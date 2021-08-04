@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-var */
 /* eslint-disable no-undef */
 /* eslint-disable vars-on-top */
@@ -21,6 +22,8 @@ function addPopUp() {
   var mainText = document.createElement('a');
   var submainText = document.createElement('a');
   var button = document.createElement('button');
+
+  var pageInfo = window.dataLayer || [];
 
   modal.setAttribute('id', 'modal-coclima');
   close.setAttribute('id', 'close-coclima');
@@ -57,6 +60,7 @@ function addPopUp() {
 
   close.onclick = function () {
     modal.style.display = 'none';
+    console.log('\n', 'DataLayer', pageInfo, '\n');
   };
 }
 

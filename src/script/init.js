@@ -58,7 +58,11 @@ function addPopUp() {
   // modal.appendChild(button);
   // document.body.appendChild(modal);
 
-  console.log('\n', 'DataLayer', pageInfo, '\n');
+  console.log('\n', 'DataLayer', pageInfo[0].pageCategory, '\n');
+
+  if (pageInfo[0].pageCategory === 'checkout') {
+    console.log('AQUI COCLIMA');
+  }
 
   // close.onclick = function () {
   //   modal.style.display = 'none';
@@ -67,3 +71,6 @@ function addPopUp() {
 }
 
 window.onload = addPopUp;
+
+// EasyCheckout_Identification
+// EasyCheckout_OrderConfirmation

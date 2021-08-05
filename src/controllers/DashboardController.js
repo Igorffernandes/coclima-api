@@ -28,7 +28,13 @@ const show = async (req, res) => {
       queryObject.company_id = req.query.company_id;
     }
     const firstPlantation = await Plantations.findOne({ where: queryObject, order: [['date', 'ASC']] });
-    const datePlantation = differenceInDays(new Date(), firstPlantation.date || new Date()) + 1;
+    let datePlantation;
+
+    console.log('\n\n\n', firstPlantation, '\n\n\n');
+
+    if (firstPlantation) {
+      datePlantation = differenceInDays(new Date(), firstPlantation.date || new Date()) + 1;
+    }
 
     if (req.query.date_filter) {
       queryObject.date = {

@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import path from 'path';
+import { Op } from 'sequelize';
 import Company from '../database/models/Companies';
 import User from '../database/models/Users';
 import passwordGenerator from '../utils/PasswordGenerator';
@@ -29,6 +30,25 @@ const css = async (req, res) => {
   } catch (err) {
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
+};
+
+const getStore = async (req, res) => {
+  const { store_id } = req.params;
+
+  const findStore = await Company.findOne({
+    where: {
+      store_id,
+      deleted_at: { [Op.is]: null },
+    },
+  });
+
+  if (!findStore) {
+    return res.status(400).json({
+      error: 'Store not found',
+    });
+  }
+
+  return res.json(findStore);
 };
 
 const create = async (req, res) => {
@@ -99,5 +119,5 @@ const create = async (req, res) => {
 };
 
 export default {
-  init, css, html, create,
+  init, css, html, create, getStore,
 };

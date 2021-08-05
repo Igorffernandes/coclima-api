@@ -49,6 +49,7 @@ routes.delete('/plantations/:id', authMiddleware, plantationController.deletePla
 routes.get('/init', TrayController.init);
 routes.get('/css', TrayController.css);
 routes.post('/callback', TrayController.create);
+routes.get('/callback/:store_id', TrayController.getStore);
 
 // routes.get('/index', TrayController.html); // just for dev
 

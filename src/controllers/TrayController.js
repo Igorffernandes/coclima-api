@@ -56,6 +56,7 @@ const create = async (req, res) => {
     username,
     email,
     name,
+    password,
     cpfcnpj,
     street,
     number,
@@ -68,7 +69,12 @@ const create = async (req, res) => {
     code,
   } = req.body;
 
-  const companyExist = await Company.findOne({ where: { cpfcnpj } });
+  const companyExist = await Company.findOne({
+    where: {
+      cpfcnpj,
+      deleted_at: { [Op.is]: null },
+    },
+  });
 
   if (companyExist) {
     return res.status(400).json({
@@ -91,7 +97,12 @@ const create = async (req, res) => {
     cpfcnpj,
   });
 
-  const userExist = await User.findOne({ where: { email } });
+  const userExist = await User.findOne({
+    where: {
+      email,
+      deleted_at: { [Op.is]: null },
+    },
+  });
 
   if (userExist) {
     return res.status(400).json({
@@ -99,23 +110,20 @@ const create = async (req, res) => {
     });
   }
 
-  const secret = passwordGenerator();
+  // const secret = passwordGenerator();
   const SALT_ROUNDS = 10;
 
-  const newUser = await User.create({
+  await User.create({
     name: username,
     email,
-    password: await bcrypt.hash(String(secret), SALT_ROUNDS),
+    password: await bcrypt.hash(String(password), SALT_ROUNDS),
     role: 'user',
     company_id: newCompany.id,
   });
 
   await getAccessToken(newCompany);
 
-  return res.status(200).json({
-    name: newUser.name,
-    password: secret,
-  });
+  return res.status(200).json({ message: 'OK' });
 };
 
 export default {

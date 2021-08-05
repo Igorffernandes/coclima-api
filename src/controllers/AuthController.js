@@ -13,15 +13,11 @@ const login = async (req, res) => {
     },
   });
 
-  console.log('\n\n\n', 'USER', user, '\n\n\n');
-
   if (!user) {
     return res.status(401).json({ error: true, msg: 'User not found' });
   }
 
   const isPasswordValid = await user.comparePassword(password);
-
-  console.log('\n\n\n', 'password', isPasswordValid, '\n\n\n');
 
   if (!isPasswordValid) {
     return res.status(401).json({ error: true, msg: 'Invalid user or password' });

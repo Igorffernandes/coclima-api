@@ -40,8 +40,9 @@ function addPopUp(storeName) {
   partnerText.setAttribute('id', 'partner-text');
   img.setAttribute('id', 'logo-img');
 
-  treesDesc.appendChild(document.createTextNode(`Ávores plantadas por ${storeName} até agora`));
-  treesValue.appendChild(document.createTextNode('1000'));
+  treesDesc.appendChild(document.createTextNode(`${storeName} já contribuiu com o plantio de várias arvosres!`));
+  // treesDesc.appendChild(document.createTextNode(`Ávores plantadas por ${storeName} até agora`));
+  // treesValue.appendChild(document.createTextNode('1000'));
 
   mainText.appendChild(document.createTextNode('Sua compra ajudou a transformar o mundo'));
   submainText.appendChild(document.createTextNode('A cada compra realizada você ajuda a plantar árvores e construir um planeta melhor'));
@@ -70,7 +71,7 @@ function addPopUp(storeName) {
   modal.appendChild(partnerDiv);
   document.body.appendChild(modal);
 
-  close.onclick = function () {
+  close.onclick = function closeModal() {
     modal.style.display = 'none';
   };
 }

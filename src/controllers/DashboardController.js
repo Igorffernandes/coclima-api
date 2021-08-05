@@ -30,8 +30,6 @@ const show = async (req, res) => {
     const firstPlantation = await Plantations.findOne({ where: queryObject, order: [['date', 'ASC']] });
     let datePlantation;
 
-    console.log('\n\n\n', firstPlantation, '\n\n\n');
-
     if (firstPlantation) {
       datePlantation = differenceInDays(new Date(), firstPlantation.date || new Date()) + 1;
     }
@@ -50,7 +48,9 @@ const show = async (req, res) => {
 
     const plantations = await Plantations.findAll({ where: queryObject, order: [['date', 'ASC']] });
 
-    const datesToMap = getDates(subDays(new Date(), Number(req.query.date_filter || datePlantation)), new Date());
+    const datesToMap = getDates(
+      subDays(new Date(), Number(req.query.date_filter || datePlantation)), new Date(),
+    );
 
     const treeChartData = datesToMap.map((item, index) => {
       let trees = 0;

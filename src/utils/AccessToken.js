@@ -8,7 +8,7 @@ const getAccessToken = async (company) => {
   params.append('consumer_secret', consumerSecret);
   params.append('code', company.code);
 
-  console.log('\n\n\n', params, '\n\n\n');
+  console.log('\n\n\n', company.api_address, company, '\n\n\n');
 
   try {
     const result = await axios.post(

@@ -3,10 +3,7 @@ import path from 'path';
 import { Op } from 'sequelize';
 import Company from '../database/models/Companies';
 import User from '../database/models/Users';
-// import passwordGenerator from '../utils/PasswordGenerator';
 import getAccessToken from '../utils/AccessToken';
-
-const bcrypt = require('bcrypt');
 
 const html = async (req, res) => {
   try {
@@ -112,13 +109,10 @@ const create = async (req, res) => {
     });
   }
 
-  // const secret = passwordGenerator();
-  const SALT_ROUNDS = 10;
-
   await User.create({
     name: username,
     email,
-    password: await bcrypt.hash(String(password), SALT_ROUNDS),
+    password,
     role: 'user',
     company_id: newCompany.id,
   });

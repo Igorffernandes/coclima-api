@@ -3,7 +3,7 @@ import path from 'path';
 import { Op } from 'sequelize';
 import Company from '../database/models/Companies';
 import User from '../database/models/Users';
-import passwordGenerator from '../utils/PasswordGenerator';
+// import passwordGenerator from '../utils/PasswordGenerator';
 import getAccessToken from '../utils/AccessToken';
 
 const bcrypt = require('bcrypt');
@@ -67,6 +67,7 @@ const create = async (req, res) => {
     site,
     api_address,
     code,
+    store_id,
   } = req.body;
 
   const companyExist = await Company.findOne({
@@ -95,6 +96,7 @@ const create = async (req, res) => {
     code,
     api_address,
     cpfcnpj,
+    store_id,
   });
 
   const userExist = await User.findOne({

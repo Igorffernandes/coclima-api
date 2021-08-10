@@ -1,4 +1,7 @@
+import bcrypt from 'bcrypt';
 import User from '../database/models/Users';
+
+const SALT_ROUNDS = 10;
 
 const index = async (req, res) => {
   try {
@@ -12,7 +15,6 @@ const index = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     const { id } = req.params;
-
     const user = await User.scope('withoutPassword', 'active').findByPk(id);
 
     if (!user) {
@@ -20,9 +22,11 @@ const getUser = async (req, res) => {
         error: 'User not found.',
       });
     }
+
     return res.json(user);
   } catch (err) {
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+    console.log('\n\n\n', err, '\n\n\n');
+    return res.status(409).json({ msg: err.errors });
   }
 };
 
@@ -36,13 +40,15 @@ const deleteUser = async (req, res) => {
         error: 'This user is not registered',
       });
     }
+
     await user.update({ deleted_at: new Date() });
 
     return res.status(204).json({
       msg: 'user deleted!',
     });
   } catch (err) {
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+    console.log('\n\n\n', err, '\n\n\n');
+    return res.status(409).json({ msg: err.errors });
   }
 };
 
@@ -50,7 +56,8 @@ const update = async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      name, password, role,
+      // eslint-disable-next-line camelcase
+      name, email, password, role, company_id,
     } = req.body;
     const user = await User.scope('active').findByPk(id);
 
@@ -59,8 +66,15 @@ const update = async (req, res) => {
         error: 'This user is not registered',
       });
     }
+
+    let newPassword;
+
+    if (password.length > 0) {
+      newPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+    }
+
     await user.update({
-      name, password, role,
+      name, email, password: newPassword, role, company_id,
     });
     const formattedUser = user.get({ plain: true });
     delete formattedUser.password;
@@ -73,11 +87,12 @@ const update = async (req, res) => {
 const create = async (req, res) => {
   try {
     const {
-      name, password, email, role,
+      // eslint-disable-next-line camelcase
+      name, password, email, role, company_id,
     } = req.body;
 
     const user = await User.create({
-      name, password, email, role,
+      name, password, email, role, company_id,
     });
 
     if (!user) {
@@ -89,7 +104,8 @@ const create = async (req, res) => {
     delete newUser.password;
     return res.json(newUser);
   } catch (err) {
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+    console.log('\n\n\n', err, '\n\n\n');
+    return res.status(409).json({ msg: err.errors });
   }
 };
 

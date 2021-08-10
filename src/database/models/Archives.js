@@ -9,32 +9,26 @@ export default class Archives extends Model {
       },
       data: {
         type: DataTypes.TEXT,
-        validate: {
-          notEmpty: {
-            msg: 'File can not be empty!',
-          },
-        },
-      },
-      company_id: {
-        type: DataTypes.INTEGER,
-        validate: {
-          notEmpty: {
-            msg: 'Company association can not be empty!',
-          },
-          isInt: true,
-        },
+        allowNull: false,
       },
       type: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: 'Type value can not be empty!',
-          },
-        },
       },
       keywords: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      company_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      partner_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      plantation_id: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
       deleted_at: {
@@ -46,9 +40,5 @@ export default class Archives extends Model {
     }, {
       sequelize,
     });
-  }
-
-  static associate(models) {
-    this.belongsTo(models.Companies, { foreignKey: 'company_id', as: 'companies' });
   }
 }

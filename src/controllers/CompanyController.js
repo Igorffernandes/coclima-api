@@ -4,21 +4,40 @@ import Company from '../database/models/Companies';
 const index = async (req, res) => {
   try {
     const queryObject = {
+      role: ['company', 'admin'],
       deleted_at: null,
     };
-
-    if (req.query.company_id) {
-      queryObject.id = req.query.company_id;
-    }
 
     const companies = await Company.findAll({ where: queryObject });
 
     if (!companies) {
       return res.status(400).json({
-        error: 'There is no client registered',
+        error: 'There is no company registered',
       });
     }
+
     return res.json(companies);
+  } catch (err) {
+    return res.status(409).json({ msg: err });
+  }
+};
+
+const indexPartners = async (req, res) => {
+  try {
+    const queryObject = {
+      role: 'partner',
+      deleted_at: null,
+    };
+
+    const partners = await Company.findAll({ where: queryObject });
+
+    if (!partners) {
+      return res.status(400).json({
+        error: 'There is no partner registered',
+      });
+    }
+
+    return res.json(partners);
   } catch (err) {
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
   }
@@ -35,6 +54,7 @@ const show = async (req, res) => {
         error: 'This company is not registered',
       });
     }
+
     return res.json(company);
   } catch (err) {
     return res.status(409).json({ msg: err.errors.map((e) => e.message) });
@@ -51,6 +71,10 @@ const update = async (req, res) => {
       phone,
       site,
       email,
+      district,
+      complement,
+      role,
+      image,
       api_address,
       access_token,
       refresh_token,
@@ -58,7 +82,9 @@ const update = async (req, res) => {
       date_expiration_refresh_token,
       date_activated,
       store_id,
+      cpfcnpj,
     } = req.body;
+
     const company = await Company.findByPk(id);
 
     if (!company) {
@@ -66,6 +92,7 @@ const update = async (req, res) => {
         error: 'This company is not registered',
       });
     }
+
     await company.update({
       name,
       number,
@@ -73,6 +100,10 @@ const update = async (req, res) => {
       phone,
       site,
       email,
+      district,
+      complement,
+      role,
+      image,
       api_address,
       access_token,
       refresh_token,
@@ -80,6 +111,7 @@ const update = async (req, res) => {
       date_expiration_refresh_token,
       date_activated,
       store_id,
+      cpfcnpj,
     });
     return res.json(company);
   } catch (err) {
@@ -116,6 +148,10 @@ const create = async (req, res) => {
       phone,
       site,
       email,
+      district,
+      complement,
+      role,
+      image,
       api_address,
       access_token,
       refresh_token,
@@ -141,6 +177,10 @@ const create = async (req, res) => {
       phone,
       site,
       email,
+      district,
+      complement,
+      role,
+      logo: image,
       api_address,
       access_token,
       refresh_token,
@@ -158,5 +198,5 @@ const create = async (req, res) => {
 };
 
 export default {
-  create, show, update, deleteClient, index,
+  create, show, update, deleteClient, index, indexPartners,
 };

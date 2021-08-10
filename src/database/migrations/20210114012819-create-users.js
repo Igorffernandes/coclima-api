@@ -27,9 +27,7 @@ module.exports = {
       },
       company_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'companies', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        allowNull: false,
       },
       deleted_at: {
         type: Sequelize.DATE,
@@ -47,12 +45,13 @@ module.exports = {
       freezeTableName: true,
     });
     const SALT_ROUNDS = 10;
-    const password = await bcrypt.hash('admin', SALT_ROUNDS);
+    const password = await bcrypt.hash('123456', SALT_ROUNDS);
     queryInterface.bulkInsert('users', [{
       name: 'admin',
       password,
-      email: 'admin@email.com',
+      email: 'admin@gmail.com',
       role: 'admin',
+      company_id: 1,
       created_at: new Date(),
       updated_at: new Date(),
     }]);

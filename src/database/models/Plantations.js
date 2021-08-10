@@ -21,18 +21,21 @@ export default class Plantations extends Model {
           },
         },
       },
+      company_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      partner_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      receipts_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       geolocation: {
         type: DataTypes.JSON,
         allowNull: true,
-      },
-      company_id: {
-        type: DataTypes.INTEGER,
-        validate: {
-          notEmpty: {
-            msg: 'Company association can not be empty!',
-          },
-          isInt: true,
-        },
       },
       deleted_at: {
         type: DataTypes.DATE,
@@ -43,9 +46,5 @@ export default class Plantations extends Model {
     }, {
       sequelize,
     });
-  }
-
-  static associate(models) {
-    this.belongsTo(models.Companies, { foreignKey: 'company_id', as: 'companies' });
   }
 }

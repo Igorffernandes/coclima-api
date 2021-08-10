@@ -10,10 +10,6 @@ export default class Companies extends Model {
           notEmpty: {
             msg: 'Company name can not be empty!',
           },
-          is: {
-            args: ['^\\D+$', 'i'],
-            msg: 'Only letters and special characters are allowed in company name',
-          },
         },
       },
       cpfcnpj: {
@@ -46,11 +42,19 @@ export default class Companies extends Model {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      complement: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       city: {
         type: DataTypes.STRING,
         allowNull: true,
       },
       state: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      district: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -74,6 +78,14 @@ export default class Companies extends Model {
       site: {
         type: DataTypes.STRING,
         allowNull: true,
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      logo: {
+        type: DataTypes.TEXT,
+        allowNull: false,
       },
       code: {
         type: DataTypes.TEXT,

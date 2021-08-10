@@ -13,20 +13,11 @@ export default class Users extends Model {
           notEmpty: {
             msg: 'User name can not be empty!',
           },
-          is: {
-            args: ['^\\D+$', 'i'],
-            msg: 'Only letters and special characters are allowed in user name',
-          },
         },
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: 'Password can not be empty!',
-          },
-        },
       },
       email: {
         type: DataTypes.STRING,
@@ -61,10 +52,6 @@ export default class Users extends Model {
           // eslint-disable-next-line no-param-reassign
           user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
         },
-        beforeUpdate: async (user) => {
-          // eslint-disable-next-line no-param-reassign
-          user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
-        },
       },
       scopes: {
         withoutPassword: {
@@ -80,10 +67,6 @@ export default class Users extends Model {
       },
       sequelize,
     });
-  }
-
-  static associate(models) {
-    this.belongsTo(models.Companies, { foreignKey: 'company_id', as: 'companies' });
   }
 
   async comparePassword(plainTextPassword) {

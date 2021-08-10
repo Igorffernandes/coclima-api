@@ -23,12 +23,7 @@ export default class Receipts extends Model {
       },
       company_id: {
         type: DataTypes.INTEGER,
-        validate: {
-          notEmpty: {
-            msg: 'Company association can not be empty!',
-          },
-          isInt: true,
-        },
+        allowNull: false,
       },
       deleted_at: {
         type: DataTypes.DATE,
@@ -39,9 +34,5 @@ export default class Receipts extends Model {
     }, {
       sequelize,
     });
-  }
-
-  static associate(models) {
-    this.belongsTo(models.Companies, { foreignKey: 'company_id', as: 'companies' });
   }
 }

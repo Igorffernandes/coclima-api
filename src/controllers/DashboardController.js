@@ -11,11 +11,7 @@ import User from '../database/models/Users';
 const show = async (req, res) => {
   try {
     const user = await User.findByPk(req.userId);
-    if (user.role !== 'admin' && !user.company_id) {
-      return res.status(400).json({
-        msg: 'you cant acess this resource',
-      });
-    }
+
     const queryObject = {
       deleted_at: null,
     };
@@ -84,7 +80,7 @@ const show = async (req, res) => {
     return res.status(200).json({
       trees: plantationsSum,
       capital: receiptsSum,
-      carbon: plantationsSum * 5,
+      carbon: plantationsSum * 130,
       treeChartData,
       capitalChartData,
     });

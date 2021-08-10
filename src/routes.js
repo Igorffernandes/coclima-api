@@ -11,7 +11,6 @@ import TrayController from './controllers/TrayController';
 
 const routes = Router();
 
-routes.get('/', (req, res) => res.json({ hello: 'World' }));
 routes.get('/dashboard', authMiddleware, DashboardController.show);
 
 routes.post('/login', authController.login);
@@ -23,6 +22,7 @@ routes.put('/users/:id', authMiddleware, userController.update);
 routes.delete('/users/:id', authMiddleware, userController.deleteUser);
 
 routes.get('/companies', authMiddleware, companyController.index);
+routes.get('/companies/partners', authMiddleware, companyController.indexPartners);
 routes.post('/companies', authMiddleware, companyController.create);
 routes.get('/companies/:id', authMiddleware, companyController.show);
 routes.put('/companies/:id', authMiddleware, companyController.update);
@@ -35,6 +35,8 @@ routes.put('/receipts/:id', authMiddleware, receiptsController.update);
 routes.delete('/receipts/:id', authMiddleware, receiptsController.deleteReceipt);
 
 routes.get('/archives', authMiddleware, archiveController.index);
+routes.get('/archives/marketing', authMiddleware, archiveController.indexMarketing);
+routes.get('/archives/marketing/:file', authMiddleware, archiveController.marketingItens);
 routes.get('/archives/:id', authMiddleware, archiveController.show);
 routes.post('/archives', authMiddleware, archiveController.create);
 routes.put('/archives/:id', authMiddleware, archiveController.update);
@@ -50,7 +52,5 @@ routes.get('/init', TrayController.init);
 routes.get('/css', TrayController.css);
 routes.post('/callback', TrayController.create);
 routes.get('/callback/:store_id', TrayController.getStore);
-
-// routes.get('/index', TrayController.html); // just for dev
 
 export default routes;

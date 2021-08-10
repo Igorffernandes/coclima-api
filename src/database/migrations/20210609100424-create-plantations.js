@@ -16,14 +16,19 @@ module.exports = {
     },
     geolocation: {
       type: Sequelize.JSON,
-      allowNull: true,
+      allowNull: false,
     },
     company_id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
-      references: { model: 'companies', key: 'id' },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
+      allowNull: true,
+    },
+    partner_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    receipts_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
     },
     deleted_at: {
       type: Sequelize.DATE,

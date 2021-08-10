@@ -15,8 +15,4 @@ Receipts.init(connection);
 Archives.init(connection);
 Plantations.init(connection);
 
-Receipts.associate(connection.models);
-Archives.associate(connection.models);
-Plantations.associate(connection.models);
-
 export default connection;

@@ -40,6 +40,49 @@ const index = async (req, res) => {
   }
 };
 
+const indexMarketing = async (req, res) => {
+  try {
+    const queryObject = {
+      deleted_at: null,
+      type: 'file',
+    };
+
+    const archives = await Archive.findAll({ where: queryObject });
+
+    if (!archives) {
+      return res.status(400).json({
+        error: 'There is no archive registered',
+      });
+    }
+
+    return res.json(archives);
+  } catch (err) {
+    return res.status(409).json({ msg: err.message });
+  }
+};
+
+const marketingItens = async (req, res) => {
+  try {
+    const { file } = req.params;
+    const queryObject = {
+      deleted_at: null,
+      keywords: file,
+    };
+
+    const archives = await Archive.findAll({ where: queryObject });
+
+    if (!archives) {
+      return res.status(400).json({
+        error: 'There is no archive registered',
+      });
+    }
+
+    return res.json(archives);
+  } catch (err) {
+    return res.status(409).json({ msg: err.message });
+  }
+};
+
 const show = async (req, res) => {
   try {
     const { id } = req.params;
@@ -91,6 +134,21 @@ const deleteArchive = async (req, res) => {
     }
     await archive.update({ deleted_at: new Date() });
 
+    if (archive.type === 'file') {
+      const queryObject = {
+        deleted_at: null,
+        keywords: archive.name,
+      };
+
+      const archivesFiles = await Archive.findAll({ where: queryObject });
+
+      archivesFiles.map(async (item) => {
+        const archiveItem = await Archive.findByPk(item.id);
+
+        await archiveItem.update({ deleted_at: new Date() });
+      });
+    }
+
     return res.status(204).json({
       msg: 'archive deleted!',
     });
@@ -102,26 +160,28 @@ const deleteArchive = async (req, res) => {
 const create = async (req, res) => {
   try {
     const {
-      data, company_id, type, keywords, deleted_at, name,
+      data, company_id, partner_id, plantation_id, keywords, name,
     } = req.body;
-    // const companyCpfCnpj = req.body.cpfcnpj;
-    // const companyExist = await Archive.findOne({ where: { cpfcnpj: companyCpfCnpj } });
-    // if (companyExist) {
-    //   return res.status(400).json({
-    //     error: 'This client is already registered',
-    //   });
-    // }
-    const archive = await Archive.create({
-      data, company_id, type, keywords, deleted_at, name,
+
+    data.map(async (item) => {
+      await Archive.create({
+        data: item.base64,
+        company_id,
+        partner_id,
+        plantation_id,
+        type: item.type,
+        keywords,
+        name,
+      });
     });
 
-    return res.json(archive);
+    return res.json({ message: 'OK' });
   } catch (err) {
-    console.log(err);
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+    console.log('\n\n', err, '\n\n');
+    return res.status(409).json({ msg: err.errors });
   }
 };
 
 export default {
-  create, show, update, deleteArchive, index,
+  create, show, update, deleteArchive, index, indexMarketing, marketingItens,
 };

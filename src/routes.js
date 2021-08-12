@@ -52,5 +52,6 @@ routes.get('/init', TrayController.init);
 routes.get('/css', TrayController.css);
 routes.post('/callback', TrayController.create);
 routes.get('/callback/:store_id', TrayController.getStore);
+routes.post('/tray/webhook', TrayController.webhook);
 
 export default routes;

@@ -122,6 +122,27 @@ const create = async (req, res) => {
   return res.status(200).json({ message: 'OK' });
 };
 
+const webhook = async (req, res) => {
+  const {
+    seller_id,
+    scope_id,
+    scope_name,
+    act,
+    app_code,
+    url_notification,
+  } = req.params;
+
+  console.log('\n\n', 'WEBHOOK',
+    seller_id,
+    scope_id,
+    scope_name,
+    act,
+    app_code,
+    url_notification, '\n\n');
+
+  return res.status(200).json({ message: 'OK' });
+};
+
 export default {
-  init, css, html, create, getStore,
+  init, css, html, create, getStore, webhook,
 };

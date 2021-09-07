@@ -30,6 +30,10 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
+    tree_value: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     deleted_at: {
       type: Sequelize.DATE,
       allowNull: true,

@@ -47,6 +47,7 @@ routes.get('/plantations/:id', authMiddleware, plantationController.show);
 routes.post('/plantations', authMiddleware, plantationController.create);
 routes.put('/plantations/:id', authMiddleware, plantationController.update);
 routes.delete('/plantations/:id', authMiddleware, plantationController.deletePlantation);
+routes.get('/plantations_trees/:id', authMiddleware, plantationController.treesCompanies);
 
 routes.get('/init', TrayController.init);
 routes.get('/css', TrayController.css);

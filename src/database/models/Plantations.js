@@ -37,6 +37,10 @@ export default class Plantations extends Model {
         type: DataTypes.JSON,
         allowNull: true,
       },
+      tree_value: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       deleted_at: {
         type: DataTypes.DATE,
         validate: {

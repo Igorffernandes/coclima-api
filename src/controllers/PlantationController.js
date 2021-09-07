@@ -83,7 +83,7 @@ const update = async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      date, trees, geolocation, company_id,
+      date, trees, geolocation, company_id, tree_value,
     } = req.body;
 
     const plantation = await Plantation.findByPk(id);
@@ -94,7 +94,7 @@ const update = async (req, res) => {
       });
     }
     await plantation.update({
-      date, trees, geolocation, company_id,
+      date, trees, geolocation, company_id, tree_value,
     });
     return res.json(plantation);
   } catch (err) {
@@ -140,18 +140,20 @@ const create = async (req, res) => {
   try {
     const {
       date,
+      date_repasse,
       trees,
       geolocation,
       company_id,
       partner_id,
       repasse,
+      tree_value,
     } = req.body;
 
     let receipt = null;
 
     if (repasse) {
       receipt = await Receipts.create({
-        date,
+        date: date_repasse,
         value: repasse,
         company_id,
       });
@@ -163,6 +165,7 @@ const create = async (req, res) => {
       geolocation,
       company_id,
       partner_id,
+      tree_value,
       receipts_id: receipt.id,
     });
 
@@ -173,6 +176,19 @@ const create = async (req, res) => {
   }
 };
 
+const treesCompanies = async (req, res) => {
+  const { id } = req.params;
+
+  const receiptsFind = await Receipts.findAll({ where: { company_id: id } });
+
+  let some = 0;
+  receiptsFind.map((item) => {
+    some += Number(item.value);
+  })
+
+  return res.status(200).json({ data: some })
+}
+
 export default {
-  create, show, update, deletePlantation, index,
+  create, show, update, deletePlantation, index, treesCompanies,
 };

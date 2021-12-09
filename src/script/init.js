@@ -76,14 +76,28 @@ function addPopUp(storeName) {
   };
 }
 
+function sendApi(storeId, paymentPrice) {
+  var url = 'https://api.coclima.com/receipts_create';
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('POST', url, { store_id: storeId, amount: paymentPrice });
+  xhttp.send();
+
+  console.log(xhttp.responseText);
+}
+
 function setPopUp() {
   var pageInfo = window.dataLayer || [];
 
-  console.log('\n', pageInfo, pageInfo[0].pageCategory, '\n');
+  if (pageInfo.length > 0 && pageInfo[pageInfo.length - 1].pageCategory === 'EasyCheckout_OrderPlaced') {
+    var urlString = window.location.href;
+    var findStore = urlString.split('&').find((a) => a.includes('store_id'));
+    var storeId = findStore ? findStore.split('=')[1] : null;
+    // var productId = pageInfo[pageInfo.length - 1].ecommerce.purchase.actionField.id;
+    var paymentPrice = pageInfo[pageInfo.length - 1].ecommerce.purchase.actionField.revenue;
 
-  if (pageInfo.length > 0 && pageInfo[0].pageCategory === 'easycheckout_orderplaced') {
     addPopUp(pageInfo[0].pageTitle);
-    //
+
+    sendApi(storeId, paymentPrice);
   }
 }
 

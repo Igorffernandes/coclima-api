@@ -30,6 +30,7 @@ routes.delete('/companies/:id', authMiddleware, companyController.deleteClient);
 
 routes.get('/receipts', authMiddleware, receiptsController.index);
 routes.post('/receipts', authMiddleware, receiptsController.create);
+routes.post('/receipts_create', receiptsController.createPublic);
 routes.get('/receipts/:id', authMiddleware, receiptsController.show);
 routes.put('/receipts/:id', authMiddleware, receiptsController.update);
 routes.delete('/receipts/:id', authMiddleware, receiptsController.deleteReceipt);

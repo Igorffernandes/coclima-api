@@ -83,6 +83,30 @@ const deleteReceipt = async (req, res) => {
   }
 };
 
+const createPublic = async (req, res) => {
+  try {
+    const {
+      // eslint-disable-next-line camelcase
+      store_id,
+      amount,
+    } = req.body;
+
+    const companyExist = await Company.findOne({ where: { store_id } });
+
+    if (!companyExist) {
+      return res.json({ msg: 'Client not found! ' });
+    }
+
+    const receipts = await Receipts.create({
+      date: new Date(), value: amount, company_id: companyExist.id,
+    });
+
+    return res.json(receipts);
+  } catch (err) {
+    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+  }
+};
+
 const create = async (req, res) => {
   try {
     const {
@@ -105,5 +129,5 @@ const create = async (req, res) => {
 };
 
 export default {
-  create, show, update, deleteReceipt, index,
+  create, show, update, deleteReceipt, index, createPublic,
 };

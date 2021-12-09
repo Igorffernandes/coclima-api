@@ -85,7 +85,7 @@ export default class Companies extends Model {
       },
       logo: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       code: {
         type: DataTypes.TEXT,

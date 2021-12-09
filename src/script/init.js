@@ -87,6 +87,7 @@ function sendApi(storeId, paymentPrice) {
 
 function setPopUp() {
   var pageInfo = window.dataLayer || [];
+  console.log('\n\n\n', 'Renderizou 1 pagina', pageInfo, '\n\n\n');
 
   if (pageInfo.length > 0 && pageInfo[pageInfo.length - 1].pageCategory === 'EasyCheckout_OrderPlaced') {
     console.log('\n\n\n', 'Teste pagina finalização', pageInfo[pageInfo.length - 1].pageCategory, '\n\n\n');
@@ -102,4 +103,4 @@ function setPopUp() {
   }
 }
 
-window.onload = setPopUp;
+setPopUp();

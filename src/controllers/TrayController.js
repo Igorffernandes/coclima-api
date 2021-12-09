@@ -94,6 +94,7 @@ const create = async (req, res) => {
     api_address,
     cpfcnpj,
     store_id,
+    role: 'company',
   });
 
   const userExist = await User.findOne({

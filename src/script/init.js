@@ -52,7 +52,7 @@ function addPopUp(storeName) {
   close.appendChild(closex);
 
   trees.appendChild(treesDesc);
-  trees.appendChild(treesValue);
+  // trees.appendChild(treesValue);
 
   button.setAttribute('onclick', "window.open('https://coclima.com', '_blank');");
   button.appendChild(document.createTextNode('Conhecer mais'));
@@ -89,6 +89,7 @@ function setPopUp() {
   var pageInfo = window.dataLayer || [];
 
   if (pageInfo.length > 0 && pageInfo[pageInfo.length - 1].pageCategory === 'EasyCheckout_OrderPlaced') {
+    console.log('\n\n\n', 'Teste pagina finalização', pageInfo[pageInfo.length - 1].pageCategory, '\n\n\n');
     var urlString = window.location.href;
     var findStore = urlString.split('&').find((a) => a.includes('store_id'));
     var storeId = findStore ? findStore.split('=')[1] : null;

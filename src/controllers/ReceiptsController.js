@@ -91,6 +91,8 @@ const createPublic = async (req, res) => {
       amount,
     } = req.body;
 
+    console.log('\n\n', 'store_id', store_id, amount, '\n\n\n');
+
     const companyExist = await Company.findOne({ where: { store_id } });
 
     if (!companyExist) {
@@ -103,7 +105,7 @@ const createPublic = async (req, res) => {
 
     return res.json(receipts);
   } catch (err) {
-    return res.status(409).json({ msg: err.errors.map((e) => e.message) });
+    return res.status(409).json({ msg: err.message });
   }
 };
 

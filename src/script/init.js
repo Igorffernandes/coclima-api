@@ -79,8 +79,11 @@ function addPopUp(storeName) {
 function setPopUp() {
   var pageInfo = window.dataLayer || [];
 
-  if (pageInfo.length > 0 && pageInfo[0].pageCategory === 'EasyCheckout_OrderPlaced') {
+  console.log('\n', pageInfo, pageInfo[0].pageCategory, '\n');
+
+  if (pageInfo.length > 0 && pageInfo[0].pageCategory === 'easycheckout_orderplaced') {
     addPopUp(pageInfo[0].pageTitle);
+    //
   }
 }
 

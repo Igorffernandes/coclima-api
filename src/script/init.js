@@ -44,7 +44,7 @@ function addPopUp(storeName) {
   // treesDesc.appendChild(document.createTextNode(`Ávores plantadas por ${storeName} até agora`));
   // treesValue.appendChild(document.createTextNode('1000'));
 
-  mainText.appendChild(document.createTextNode('Sua compra ajudou a transformar o mundo'));
+  mainText.appendChild(document.createTextNode('Sua compra ajuda a transformar o mundo'));
   submainText.appendChild(document.createTextNode('A cada compra realizada você ajuda a plantar árvores e construir um planeta melhor'));
 
   closex.appendChild(document.createTextNode('X'));

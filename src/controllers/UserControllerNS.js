@@ -95,21 +95,12 @@ const create = async (req, res) => {
 
   if (responseCompany.error) {
 
-    const optionsGetCompany = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
-      body: JSON.stringify({ name: name, street: street, phone: phone, role: 'company', store_id: store_id, access_token: access_token, cpfcnpj: cpfcnpj })
-    };
-    requestCompany = await fetch('https://api.coclima.com/companies', optionsGetCompany)
-
-
-
     const optionsUpdateCompany = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
       body: JSON.stringify({ name: name, street: street, phone: phone, role: 'company', store_id: store_id, access_token: access_token, cpfcnpj: cpfcnpj })
     };
-    requestCompany = await fetch('https://api.coclima.com/companies', optionsUpdateCompany)
+    requestCompany = await fetch('https://api.coclima.com/companies?id=' + company_id, optionsUpdateCompany)
     responseCompany = await requestCompany.json()
     company_id = responseCompany.id
 

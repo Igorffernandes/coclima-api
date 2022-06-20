@@ -167,7 +167,7 @@ const create = async (req, res) => {
     if (companyExist) {
       return res.status(400).json({
         error: 'This client is already registered!',
-        company: companyExist
+        id: companyExist.id
       });
     }
 

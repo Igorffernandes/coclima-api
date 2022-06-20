@@ -19,14 +19,6 @@ export default class Companies extends Model {
           notEmpty: {
             msg: 'Company cpf can not be empty!',
           },
-          isInt: {
-            args: true,
-            msg: 'Company cpf/cnpj must be only numbers. Ex: 00011122244',
-          },
-          len: {
-            args: [11, 14],
-            msg: 'Must contain 14 characters or 11 characters',
-          },
         },
       },
       street: {

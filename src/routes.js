@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import userController from './controllers/UserController';
+import userControllerNS from './controllers/UserControllerNS';
 import companyController from './controllers/CompanyController';
 import receiptsController from './controllers/ReceiptsController';
 import authController from './controllers/AuthController';
@@ -42,6 +43,14 @@ routes.get('/archives/:id', authMiddleware, archiveController.show);
 routes.post('/archives', authMiddleware, archiveController.create);
 routes.put('/archives/:id', authMiddleware, archiveController.update);
 routes.delete('/archives/:id', authMiddleware, archiveController.deleteArchive);
+
+
+
+routes.get('/createUserNS', userControllerNS.create);
+/* routes.post('/createWebhookNS', authMiddleware, webhookControllerNS.create);
+routes.post('/createScriptNS', authMiddleware, scriptControllerNS.create); */
+
+
 
 routes.get('/plantations', authMiddleware, plantationController.index);
 routes.get('/plantations/:id', authMiddleware, plantationController.show);

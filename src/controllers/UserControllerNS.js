@@ -100,7 +100,7 @@ const create = async (req, res) => {
       headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
       body: JSON.stringify({ name: name, street: street, phone: phone, role: 'company', store_id: store_id, access_token: access_token, cpfcnpj: cpfcnpj })
     };
-    requestCompany = await fetch('https://api.coclima.com/companies?id=' + company_id, optionsUpdateCompany)
+    requestCompany = await fetch('https://api.coclima.com/companies/' + company_id, optionsUpdateCompany)
     responseCompany = await requestCompany.json()
     company_id = responseCompany.id
 
@@ -116,17 +116,30 @@ const create = async (req, res) => {
   const optionsUser = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
-    body: JSON.stringify({ name: name, password: password, role: 'user', email: email, company_id: company_id, createdAt: new Date(), updatedAt: new Date() })
+    body: JSON.stringify({ name: name, password: password, role: 'user', email: email, company_id: company_id })
   };
   const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
   const responseUser = await requestUser.json()
 
+  console.log(requestUser.status)
+  console.log(responseUser, 'USEEEER')
 
-  date_activated
   console.log(responseNS, responseStore, responseCompany, responseUser)
 
 
+  if (requestUser.status === 409) {
 
+    const optionsUser = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
+      body: JSON.stringify({ name: name, password: password, role: 'user', email: email, company_id: company_id })
+    };
+    const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
+    const responseUser = await requestUser.json()
+
+    console.log(responseUser)
+
+  }
 
   /*   try {
   

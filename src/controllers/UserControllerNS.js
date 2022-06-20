@@ -72,7 +72,7 @@ const create = async (req, res) => {
 
   let cpfcnpj = responseStore.business_id
   if (cpfcnpj === null) {
-    cpfcnpj = 'Sem CNPJ' + store_id
+    cpfcnpj = 'Sem CNPJ ' + store_id
   }
 
 
@@ -85,24 +85,53 @@ const create = async (req, res) => {
   const optionsCompany = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
-    body: JSON.stringify({ name: name, street: street, phone: phone, role: 'user', store_id: store_id, access_token: access_token, cpfcnpj: cpfcnpj })
+    body: JSON.stringify({ name: name, street: street, phone: phone, role: 'company', store_id: store_id, access_token: access_token, cpfcnpj: cpfcnpj })
   };
-  const requestCompany = await fetch('https://api.coclima.com/companies', optionsCompany)
-  const responseCompany = await requestCompany.json()
-  const company_id = responseCompany.id
+  let requestCompany = await fetch('https://api.coclima.com/companies', optionsCompany)
+  let responseCompany = await requestCompany.json()
+  let company_id = responseCompany.id
 
   console.log(responseCompany)
+
+  if (responseCompany.error) {
+
+    const optionsGetCompany = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
+      body: JSON.stringify({ name: name, street: street, phone: phone, role: 'company', store_id: store_id, access_token: access_token, cpfcnpj: cpfcnpj })
+    };
+    requestCompany = await fetch('https://api.coclima.com/companies', optionsGetCompany)
+
+
+
+    const optionsUpdateCompany = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
+      body: JSON.stringify({ name: name, street: street, phone: phone, role: 'company', store_id: store_id, access_token: access_token, cpfcnpj: cpfcnpj })
+    };
+    requestCompany = await fetch('https://api.coclima.com/companies', optionsUpdateCompany)
+    responseCompany = await requestCompany.json()
+    company_id = responseCompany.id
+
+    console.log(responseCompany)
+
+
+  }
+
+
+
+
   //Creates user on CoClima's API
   const optionsUser = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
-    body: JSON.stringify({ name: name, password: password, role: 'user', email: email, company_id: company_id })
+    body: JSON.stringify({ name: name, password: password, role: 'user', email: email, company_id: company_id, createdAt: new Date(), updatedAt: new Date() })
   };
-  const requestUser = await fetch('https://api.coclima.com/user', optionsUser)
+  const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
   const responseUser = await requestUser.json()
 
 
-
+  date_activated
   console.log(responseNS, responseStore, responseCompany, responseUser)
 
 

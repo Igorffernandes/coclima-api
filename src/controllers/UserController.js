@@ -105,7 +105,7 @@ const create = async (req, res) => {
     return res.json(newUser);
   } catch (err) {
     console.log('\n\n\n', err, '\n\n\n');
-    return res.status(409).json({ res });
+    return res.status(409).json({ msg: err.errors });
   }
 };
 

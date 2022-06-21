@@ -85,6 +85,7 @@ const update = async (req, res) => {
 };
 
 const create = async (req, res) => {
+  console.log(res)
   try {
     const {
       // eslint-disable-next-line camelcase

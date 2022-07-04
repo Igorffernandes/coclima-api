@@ -111,8 +111,8 @@ const create = async (req, res) => {
   };
 
   const getExistingUser = await fetch('https://api.coclima.com/usersNS/' + email, optionsGetUser)
-
-
+  const responseExistingUser = await getExistingUser.json()
+  const existingUserId = responseExistingUser.id
 
   if (getExistingUser.status === 404) {
     const optionsUser = {
@@ -122,7 +122,7 @@ const create = async (req, res) => {
     };
     const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
     const responseUser = await requestUser.json()
-    console.log(responseUser)
+
 
   }
 
@@ -133,7 +133,7 @@ const create = async (req, res) => {
       headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
       body: JSON.stringify({ name: name, password: password, role: 'user', email: email, company_id: company_id })
     };
-    const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
+    const requestUser = await fetch('https://api.coclima.com/users/' + existingUserId, optionsUser)
     const responseUser = await requestUser.json()
     console.log(responseUser)
 

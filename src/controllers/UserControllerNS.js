@@ -170,7 +170,7 @@ const create = async (req, res) => {
    const responseUpdateWebhooks = await requestUpdateWebhooks.json() */
 
 
-
+  return res.status(200).json({});
 };
 
 export default {

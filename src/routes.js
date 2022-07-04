@@ -20,7 +20,6 @@ routes.post('/login', authController.login);
 
 routes.get('/users', authMiddleware, userController.index);
 routes.get('/usersNS/:email', authMiddleware, userController.getUserNS);
-routes.get('/webhookUserNS/:store_id', authMiddleware, userController.getWebhooksNS);
 routes.post('/users', authMiddleware, userController.create);
 routes.get('/users/:id', authMiddleware, userController.getUser);
 routes.put('/users/:id', authMiddleware, userController.update);
@@ -32,6 +31,7 @@ routes.post('/companies', authMiddleware, companyController.create);
 routes.get('/companies/:id', authMiddleware, companyController.show);
 routes.put('/companies/:id', authMiddleware, companyController.update);
 routes.delete('/companies/:id', authMiddleware, companyController.deleteClient);
+routes.get('/webhookCompanyNS/:store_id', authMiddleware, companyController.getWebhooksNS);
 
 routes.get('/receipts', authMiddleware, receiptsController.index);
 routes.post('/receipts', authMiddleware, receiptsController.create);

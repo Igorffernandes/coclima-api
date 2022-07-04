@@ -139,6 +139,24 @@ const deleteClient = async (req, res) => {
   }
 };
 
+const getWebhooksNS = async (req, res) => {
+  try {
+
+    const { store_id } = req.params;
+    const company = await Company.findOne({ where: { store_id: store_id } });
+    if (!company) {
+      return res.status(404).json({
+        error: 'User not found.',
+      });
+    }
+
+    return res.json(company);
+  } catch (err) {
+    console.log('\n\n\n', err, '\n\n\n');
+    return res.status(409).json({ msg: err.errors });
+  }
+};
+
 const create = async (req, res) => {
   try {
     const {
@@ -199,5 +217,5 @@ const create = async (req, res) => {
 };
 
 export default {
-  create, show, update, deleteClient, index, indexPartners,
+  create, show, update, deleteClient, index, indexPartners, getWebhooksNS
 };

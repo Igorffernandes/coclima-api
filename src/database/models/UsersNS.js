@@ -40,14 +40,6 @@ export default class Users extends Model {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      store_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      access_token: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
       deleted_at: {
         type: DataTypes.DATE,
         validate: {

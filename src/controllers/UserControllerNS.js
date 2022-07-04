@@ -18,7 +18,6 @@ const create = async (req, res) => {
   //Get 'code' query string that Nuvemshop sends to OAuth2
   var query = require('url').parse(req.url, true).query;
   var code = query.code
-  console.log(code)
 
   //Nuvemshop's OAuth
   const optionsNS = {
@@ -105,7 +104,6 @@ const create = async (req, res) => {
 
   const getExistingUser = await fetch('https://api.coclima.com/usersNS/' + email, optionsGetUser)
 
-  console.log(getExistingUser.status)
 
 
   if (getExistingUser.status === 404) {

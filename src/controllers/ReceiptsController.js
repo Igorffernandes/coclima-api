@@ -118,11 +118,12 @@ const create = async (req, res) => {
 
     const client = req.body.client_id;
     const clientExist = await Company.findOne({ where: { id: client } });
+
     if (!clientExist) {
       return res.json({ msg: 'Client not found! ' });
     }
     const receipts = await Receipts.create({
-      date, value, client_id,
+      date, value, company_id: client_id,
     });
     return res.json(receipts);
   } catch (err) {

@@ -15,7 +15,7 @@ const create = async (req, res) => {
   const token = await fetch('https://api.coclima.com/login', optionsLogin)
   const bearer = await token.json()
   const access_token_coclima = 'Bearer ' + bearer.token
-
+  console.log("Login Coclima: " + bearer)
 
   //Get data from Coclima about this store access token
   const optionsGetUser = {
@@ -27,7 +27,7 @@ const create = async (req, res) => {
   const responsegetExistingUser = await getExistingUser.json()
   const access_token = responsegetExistingUser.access_token
   const client_id = responsegetExistingUser.company_id
-
+  console.log("Pegar user por store id: " + responsegetExistingUser)
 
   //Get data from Order
   const optionsStore = {
@@ -39,6 +39,7 @@ const create = async (req, res) => {
   const responseStore = await requestStore.json()
   const date = responseStore.created_at
   const subtotal = responseStore.subtotal
+  console.log("Pegar dados do pedido: " + responseStore)
 
 
   //Post Receipt with order information
@@ -49,6 +50,7 @@ const create = async (req, res) => {
   };
   const requestReceipt = await fetch('https://api.coclima.com/receipts', optionsReceipt)
   const responseReceipt = await requestReceipt.json()
+  console.log("Criar Receipt: " + responseReceipt)
 
   return res.status(200).json({});
 };

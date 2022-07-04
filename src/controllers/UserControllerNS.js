@@ -17,6 +17,7 @@ const create = async (req, res) => {
   const token = await fetch('https://api.coclima.com/login', optionsLogin)
   const bearer = await token.json()
   const access_token_coclima = 'Bearer ' + bearer.token
+  console.log("Login na Coclima: " + bearer)
 
   //Get 'code' query string that Nuvemshop sends to OAuth2
   var query = require('url').parse(req.url, true).query;
@@ -33,6 +34,7 @@ const create = async (req, res) => {
   const responseNS = await requestNS.json()
   const access_token = responseNS.access_token
   const store_id = responseNS.user_id
+  console.log("OAuth na NS: " + responseNS)
 
 
   //Get Store's data
@@ -71,7 +73,7 @@ const create = async (req, res) => {
   if (cpfcnpj === null) {
     cpfcnpj = 'Sem CNPJ ' + store_id
   }
-
+  console.log("Get Store na NS: " + requestStore)
 
   //Creates company on CoClima's API
   const optionsCompany = {
@@ -82,6 +84,8 @@ const create = async (req, res) => {
   let requestCompany = await fetch('https://api.coclima.com/companies', optionsCompany)
   let responseCompany = await requestCompany.json()
   let company_id = responseCompany.id
+  console.log("Create Company: " + responseCompany)
+
 
   if (responseCompany.error) {
 
@@ -93,6 +97,7 @@ const create = async (req, res) => {
     requestCompany = await fetch('https://api.coclima.com/companies/' + company_id, optionsUpdateCompany)
     responseCompany = await requestCompany.json()
     company_id = responseCompany.id
+    console.log("Já existe company: " + responseCompany)
   }
 
 
@@ -117,7 +122,7 @@ const create = async (req, res) => {
     };
     const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
     const responseUser = await requestUser.json()
-
+    console.log("Criando User na Coclima: " + responseUser)
 
   }
 
@@ -130,7 +135,7 @@ const create = async (req, res) => {
     };
     const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
     const responseUser = await requestUser.json()
-
+    console.log("Já existe User na Coclima: " + responseUser)
 
 
   }
@@ -146,7 +151,7 @@ const create = async (req, res) => {
   const urlCreateWebhooks = 'https://api.tiendanube.com/v1/' + store_id + '/webhooks'
   const requestCreateWebhooks = await fetch(urlCreateWebhooks, optionsCreateWebhooks)
   const responseCreateWebhooks = await requestCreateWebhooks.json()
-
+  console.log("Criando webhooks: " + responseCreateWebhooks)
 
 
   //Create Store's Modal
@@ -160,7 +165,7 @@ const create = async (req, res) => {
   const urlModal = 'https://api.tiendanube.com/v1/' + store_id + '/scripts'
   const requestModal = await fetch(urlModal, optionsModal)
   const responseModal = await requestModal.json()
-
+  console.log("Criando modal: " + responseModal)
   /*  const optionsUpdateWebhooks = {
      method: 'POST',
      headers: { 'Content-Type': 'application/json', 'User-Agent': 'CoClima(https://coclima.com)', 'Agent': 'Luiz Bett(luiz@codx.dev', 'Authentication': 'bearer ' + access_token },

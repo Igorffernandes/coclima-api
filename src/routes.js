@@ -9,6 +9,8 @@ import plantationController from './controllers/PlantationController';
 import authMiddleware from './middlewares/authMiddleware';
 import DashboardController from './controllers/DashboardController';
 import TrayController from './controllers/TrayController';
+import ScriptController from './controllers/ScriptController';
+import webhookControllerNS from './controllers/webhookControllerNS';
 
 const routes = Router();
 
@@ -17,6 +19,8 @@ routes.get('/dashboard', authMiddleware, DashboardController.show);
 routes.post('/login', authController.login);
 
 routes.get('/users', authMiddleware, userController.index);
+routes.get('/usersNS/:email', authMiddleware, userController.getUserNS);
+routes.get('/webhookUserNS/:store_id', authMiddleware, userController.getWebhooksNS);
 routes.post('/users', authMiddleware, userController.create);
 routes.get('/users/:id', authMiddleware, userController.getUser);
 routes.put('/users/:id', authMiddleware, userController.update);
@@ -47,7 +51,11 @@ routes.delete('/archives/:id', authMiddleware, archiveController.deleteArchive);
 
 
 routes.get('/createUserNS', userControllerNS.create);
-/* routes.post('/createWebhookNS', authMiddleware, webhookControllerNS.create);
+routes.post('/orderCreatedNS', authMiddleware, webhookControllerNS.create);
+routes.get('/initNS', ScriptController.init);
+routes.get('/cssNS', ScriptController.css);
+routes.get('/htmlNS', ScriptController.html);
+/*routes.post('/orderUpdatedNS', authMiddleware, webhookControllerNS.update);
 routes.post('/createScriptNS', authMiddleware, scriptControllerNS.create); */
 
 

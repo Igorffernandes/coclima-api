@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import User from '../database/models/Users';
+import UserNS from '../database/models/UsersNS';
 
 const SALT_ROUNDS = 10;
 
@@ -16,6 +17,42 @@ const getUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.scope('withoutPassword', 'active').findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found.',
+      });
+    }
+
+    return res.json(user);
+  } catch (err) {
+    console.log('\n\n\n', err, '\n\n\n');
+    return res.status(409).json({ msg: err.errors });
+  }
+};
+
+const getUserNS = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const user = await User.scope('withoutPassword', 'active').findOne({ where: { email: email } });;
+
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found.',
+      });
+    }
+
+    return res.json(user);
+  } catch (err) {
+    console.log('\n\n\n', err, '\n\n\n');
+    return res.status(409).json({ msg: err.errors });
+  }
+};
+
+const getWebhooksNS = async (req, res) => {
+  try {
+    const { store_id } = req.params;
+    const user = await UserNS.scope('withoutPassword', 'active').findOne({ where: { store_id: store_id } });;
 
     if (!user) {
       return res.status(404).json({
@@ -111,5 +148,5 @@ const create = async (req, res) => {
 };
 
 export default {
-  create, getUser, update, deleteUser, index,
+  create, getUser, update, deleteUser, index, getUserNS, getWebhooksNS
 };

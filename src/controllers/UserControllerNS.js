@@ -1,7 +1,7 @@
 import User from '../database/models/Users';
 import fetch from "node-fetch";
 import { url } from 'inspector';
-
+require('dotenv/config');
 
 const create = async (req, res) => {
 
@@ -9,11 +9,10 @@ const create = async (req, res) => {
   const optionsLogin = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'coclima@codx.dev', password: 'n84MFPigH?T769ib' })
+    body: JSON.stringify({ email: process.env.COCLIMA_ADMIN_LOGIN, password: process.env.COCLIMA_ADMIN_PASSWORD })
   };
   const token = await fetch('https://api.coclima.com/login', optionsLogin)
   const bearer = await token.json()
-  console.log(bearer)
   const access_token_coclima = 'Bearer ' + bearer.token
 
   //Get 'code' query string that Nuvemshop sends to OAuth2
@@ -32,7 +31,6 @@ const create = async (req, res) => {
   const responseNS = await requestNS.json()
   const access_token = responseNS.access_token
   const store_id = responseNS.user_id
-  console.log(responseNS)
 
 
   //Get Store's data
@@ -44,16 +42,13 @@ const create = async (req, res) => {
   const urlStore = 'https://api.tiendanube.com/v1/' + store_id + '/store'
   const requestStore = await fetch(urlStore, optionsStore)
   const responseStore = await requestStore.json()
-  console.log(urlStore)
-  console.log('bearer ' + access_token)
-  console.log(responseStore)
 
   let email = responseStore.email
   if (email === null) {
     email = 'Sua Conta'
   }
 
-  const password = responseStore.id
+  const password = "sen" + responseStore.id
 
   let name = responseStore.name.pt
   if (name === null) {
@@ -76,11 +71,6 @@ const create = async (req, res) => {
   }
 
 
-
-
-
-  console.log(access_token_coclima)
-
   //Creates company on CoClima's API
   const optionsCompany = {
     method: 'POST',
@@ -90,8 +80,6 @@ const create = async (req, res) => {
   let requestCompany = await fetch('https://api.coclima.com/companies', optionsCompany)
   let responseCompany = await requestCompany.json()
   let company_id = responseCompany.id
-
-  console.log(responseCompany)
 
   if (responseCompany.error) {
 
@@ -103,31 +91,36 @@ const create = async (req, res) => {
     requestCompany = await fetch('https://api.coclima.com/companies/' + company_id, optionsUpdateCompany)
     responseCompany = await requestCompany.json()
     company_id = responseCompany.id
-
-    console.log(responseCompany)
-
-
   }
 
 
 
 
   //Creates user on CoClima's API
-  const optionsUser = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
-    body: JSON.stringify({ name: name, password: password, role: 'user', email: email, company_id: company_id })
+
+  const optionsGetUser = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima }
   };
-  const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
-  const responseUser = await requestUser.json()
 
-  console.log(requestUser.status)
-  console.log(responseUser, 'USEEEER')
+  const getExistingUser = await fetch('https://api.coclima.com/usersNS/' + email, optionsGetUser)
 
-  console.log(responseNS, responseStore, responseCompany, responseUser)
+  console.log(getExistingUser.status)
 
 
-  if (requestUser.status === 409) {
+  if (getExistingUser.status === 404) {
+    const optionsUser = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': access_token_coclima },
+      body: JSON.stringify({ name: name, password: password, role: 'user', email: email, company_id: company_id })
+    };
+    const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
+    const responseUser = await requestUser.json()
+
+
+  }
+
+  if (getExistingUser.status === 200) {
 
     const optionsUser = {
       method: 'PUT',
@@ -137,28 +130,47 @@ const create = async (req, res) => {
     const requestUser = await fetch('https://api.coclima.com/users', optionsUser)
     const responseUser = await requestUser.json()
 
-    console.log(responseUser)
+
 
   }
 
-  /*   try {
-  
-      const user = await User.create({
-        name, password, email, role, company_id
-      });
-  
-      if (!user) {
-        return res.status(400).json({
-          error: 'This user is already registered',
-        });
-      }
-      const newUser = user.get({ plain: true });
-      delete newUser.password;
-      return res.json(newUser);
-    } catch (err) {
-      console.log('\n\n\n', err, '\n\n\n');
-      return res.status(409).json({ msg: err.errors });
-    } */
+
+  //Create Webhooks for order/paid
+
+  const optionsCreateWebhooks = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'User-Agent': 'CoClima(https://coclima.com)', 'Agent': 'Luiz Bett(luiz@codx.dev', 'Authentication': 'bearer ' + access_token },
+    body: JSON.stringify({ url: 'https://api.coclima.com/orderCreatedNS/', event: 'order/paid' })
+  };
+  const urlCreateWebhooks = 'https://api.tiendanube.com/v1/' + store_id + '/webhooks'
+  const requestCreateWebhooks = await fetch(urlCreateWebhooks, optionsCreateWebhooks)
+  const responseCreateWebhooks = await requestCreateWebhooks.json()
+
+
+
+  //Create Store's Modal
+
+  const optionsModal = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'User-Agent': 'CoClima(https://coclima.com)', 'Agent': 'Luiz Bett(luiz@codx.dev', 'Authentication': 'bearer ' + access_token },
+    body: JSON.stringify({ src: 'https://api.coclima.com/initNS', event: 'onfirstinteraction', where: 'checkout' })
+  };
+
+  const urlModal = 'https://api.tiendanube.com/v1/' + store_id + '/scripts'
+  const requestModal = await fetch(urlModal, optionsModal)
+  const responseModal = await requestModal.json()
+
+  /*  const optionsUpdateWebhooks = {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json', 'User-Agent': 'CoClima(https://coclima.com)', 'Agent': 'Luiz Bett(luiz@codx.dev', 'Authentication': 'bearer ' + access_token },
+     body: JSON.stringify({ url: 'https://api.coclima.com/orderUpdatedNS/', event: 'order/updated' })
+   };
+   const urlUpdateWebhooks = 'https://api.tiendanube.com/v1/' + store_id + '/webhooks'
+   const requestUpdateWebhooks = await fetch(urlUpdateWebhooks, optionsUpdateWebhooks)
+   const responseUpdateWebhooks = await requestUpdateWebhooks.json() */
+
+
+
 };
 
 export default {

@@ -6,6 +6,7 @@ require('dotenv/config');
 const create = async (req, res) => {
 
   console.log(process.env.COCLIMA_ADMIN_LOGIN)
+  console.log(process.env.COCLIMA_ADMIN_PASSWORD)
 
   //Login to get an Admin bearer Token
   const optionsLogin = {

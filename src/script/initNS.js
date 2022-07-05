@@ -1,15 +1,12 @@
-/* eslint-disable no-console */
-/* eslint-disable no-var */
-/* eslint-disable no-undef */
-/* eslint-disable vars-on-top */
 
-let once = false;
+let onceExec = false;
 
 
 
 if (window.location.href.indexOf("/success/") > -1) {
-  if (!once) {
-    once = true;
+  if (!onceExec) {
+    onceExec = true;
+
     function addCss(href) {
       var s = document.createElement('link');
       s.setAttribute('rel', 'stylesheet');

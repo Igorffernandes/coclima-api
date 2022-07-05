@@ -5,9 +5,10 @@
 
 let once = false;
 
-if (!once) {
 
-  if (window.location.href.indexOf("/success/") > -1) {
+
+if (window.location.href.indexOf("/success/") > -1) {
+  if (!once) {
     once = true;
     function addCss(href) {
       var s = document.createElement('link');

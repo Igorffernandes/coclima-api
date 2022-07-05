@@ -159,7 +159,7 @@ const create = async (req, res) => {
   const optionsModal = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'User-Agent': 'CoClima(https://coclima.com)', 'Agent': 'Luiz Bett(luiz@codx.dev', 'Authentication': 'bearer ' + access_token },
-    body: JSON.stringify({ src: 'https://api.coclima.com/initNS', event: 'onfirstinteraction', where: 'checkout' })
+    body: JSON.stringify({ src: 'https://api.coclima.com/initNS', event: 'onload', where: 'checkout' })
   };
 
   const urlModal = 'https://api.tiendanube.com/v1/' + store_id + '/scripts'

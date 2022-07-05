@@ -1,11 +1,12 @@
-
+localStorage.setItem('run-function', true);
 
 if (window.location.href.indexOf("/success/") > -1) {
 
-  global.run_function = true;
+
 
   function runPopup() {
-    if (global.run_function) {
+    if (localStorage.getItem('run-function')) {
+
       function addCss(href) {
         var s = document.createElement('link');
         s.setAttribute('rel', 'stylesheet');
@@ -96,9 +97,7 @@ if (window.location.href.indexOf("/success/") > -1) {
 
 
       addPopUp();
-      global.run_function = false;
-    } else {
-      console.log('Popup já renderizou');
+      localStorage.setItem('run-function', false);
     }
   }
 

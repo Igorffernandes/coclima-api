@@ -1,5 +1,7 @@
 localStorage.setItem('run-function', true);
 
+setTimeout(runPopup, 3000);
+
 if (window.location.href.indexOf("/success/") > -1) {
   function runPopup() {
     if (localStorage.getItem('run-function') === 'true') {
@@ -96,9 +98,5 @@ if (window.location.href.indexOf("/success/") > -1) {
       addPopUp();
     }
   }
-
-
-  runPopup();
-
 
 }

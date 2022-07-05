@@ -1,12 +1,9 @@
 localStorage.setItem('run-function', true);
 
 if (window.location.href.indexOf("/success/") > -1) {
-
-
-
   function runPopup() {
-    if (localStorage.getItem('run-function')) {
-
+    if (localStorage.getItem('run-function') === 'true') {
+      localStorage.setItem('run-function', false);
       function addCss(href) {
         var s = document.createElement('link');
         s.setAttribute('rel', 'stylesheet');
@@ -97,7 +94,6 @@ if (window.location.href.indexOf("/success/") > -1) {
 
 
       addPopUp();
-      localStorage.setItem('run-function', false);
     }
   }
 

@@ -51,7 +51,7 @@ routes.delete('/archives/:id', authMiddleware, archiveController.deleteArchive);
 
 
 routes.get('/createUserNS', userControllerNS.create);
-routes.post('/orderCreatedNS', authMiddleware, webhookControllerNS.create);
+routes.post('/orderCreatedNS', webhookControllerNS.create);
 routes.get('/initNS', ScriptController.init);
 routes.get('/cssNS', ScriptController.css);
 routes.get('/htmlNS', ScriptController.html);
